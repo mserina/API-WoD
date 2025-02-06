@@ -46,7 +46,15 @@ public class UsuarioServicio {
 	    
 	    
 	    
-	    
+	    /**
+	     * Método para obtener un usuario específico de la base de datos dado su ID 
+	     * @param idUsuario ID del usuario que se desea buscar.
+	     * @return Optional<UsuarioModelo> que contiene el usuario si existe, o vacío si no se encuentra.
+	     */
+	    public Optional<UsuarioModelo> mostrarUnUsuario(Long idUsuario) {
+	        return usuarioRepositorio.findById(idUsuario);
+	    }
+
 	    
 	    
 	    

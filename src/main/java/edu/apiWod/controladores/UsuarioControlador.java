@@ -24,7 +24,7 @@ import edu.apiWod.servicios.UsuarioServicio;
 	
 // Anotación que define este controlador como un controlador REST
 @RestController
-@RequestMapping("/api/usuario") // Define la ruta base para las solicitudes relacionadas con usuarios
+@RequestMapping("/usuario") // Define la ruta base para las solicitudes relacionadas con usuarios
 public class UsuarioControlador {
 
 	private static final Logger logger = LoggerFactory.getLogger(UsuarioServicio.class);
@@ -46,8 +46,19 @@ public class UsuarioControlador {
         return "Usuario añadido con éxito, ID: " + usuario.getId();
     }
     
+     
+   
     
     
+    
+ //Probar conexion WEB - API
+    @GetMapping("/ping")
+    public ResponseEntity<String> pingApi() {
+    	
+        // Devuelve un mensaje simple para indicar que la API está viva
+        return ResponseEntity.ok("Pong");
+    }
+
     
     
     
@@ -60,15 +71,19 @@ public class UsuarioControlador {
     	// Registro del inicio de la solicitud
         logger.info("Solicitud recibida para obtener todos los usuarios.");
         
+        
         // Llamada al servicio para obtener los usuarios
         List<UsuarioModelo> usuarios = usuarioServicios.obtenerTodosUsuarios();
 
+       
         // Registro de la cantidad de usuarios recuperados
         if (!usuarios.isEmpty()) {
             logger.info("Se encontraron {} usuarios en la base de datos.", usuarios.size());
             logger.debug("Usuarios recuperados: {}", usuarios);
         
-        } else {
+        } 
+        
+        else {
             logger.warn("No se encontraron usuarios en la base de datos.");
         }
 
@@ -80,10 +95,26 @@ public class UsuarioControlador {
     
     
     
+ // Endpoint para obtener un usuario por su ID
+    @GetMapping("/mostrarUsuario/{id}")
+    public ResponseEntity<?> mostrarUnUsuario(@PathVariable Long id) {
+        Optional<UsuarioModelo> usuario = usuarioServicios.mostrarUnUsuario(id);
+
+        // Verificar si el usuario existe
+        if (usuario.isPresent()) {
+            return ResponseEntity.ok(usuario.get()); // 200 OK con el usuario encontrado
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(Map.of("mensaje", "Usuario no encontrado")); // 404 Not Found con mensaje
+        }
+    }
+
+    
+    
     
     
   //Borra un usuario por id
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/borrar/{id}")
     public String borrarUsuario(@PathVariable Long id) {
     	
         usuarioServicios.borrarUsuario(id);
@@ -99,7 +130,8 @@ public class UsuarioControlador {
     
     @PutMapping("/modificar")
     public ResponseEntity<?> modificarUsuario(@RequestParam String correoElectronico, @RequestParam String campo, @RequestParam String nuevoValor) {
-        // Llamar al servicio para modificar el usuario
+        
+    	// Llamar al servicio para modificar el usuario
         Optional<UsuarioModelo> usuario = usuarioServicios.modificarUsuario(correoElectronico, campo, nuevoValor);
 
         // Si el usuario fue encontrado y modificado

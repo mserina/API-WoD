@@ -40,8 +40,6 @@ public class UsuarioModelo {
 	    @Column(name = "token", nullable = false, length = 255)
 	    private String token;
 
-		@Column(name = "creacion_token", nullable = false)
-	    private LocalDateTime creacionToken; 
 	    
 	    @Column(name = "expiracion_token", nullable = false)
 	    private LocalDateTime expiracionToken; 
@@ -114,13 +112,6 @@ public class UsuarioModelo {
 			this.token = token;
 		}
 
-		public LocalDateTime getCreacionToken() {
-			return creacionToken;
-		}
-
-		public void setCreacionToken(LocalDateTime creacionToken) {
-			this.creacionToken = creacionToken;
-		}
 
 		public LocalDateTime getExpiracionToken() {
 			return expiracionToken;

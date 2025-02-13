@@ -38,11 +38,11 @@ public class UsuarioModelo {
 	    private String foto;
 
 	    @Column(name = "token", nullable = false, length = 255)
-	    private String token;
+	    private String token = "";
 
 	    
 	    @Column(name = "expiracion_token", nullable = false)
-	    private LocalDateTime expiracionToken; 
+	    private LocalDateTime expiracionToken = LocalDateTime.now().plusHours(7); 
 	    
 
 	    

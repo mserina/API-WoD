@@ -41,8 +41,7 @@ public class UsuarioControlador {
     /*---------------------------------METODOS---------------------------------*/
     
  //Para agregar un usuario nuevo
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/crear")
+    @PostMapping
     public String agregarUsuario(@RequestBody UsuarioModelo usuario) {
         usuarioServicios.agregarUsuario(usuario);
         return "Usuario añadido con éxito, ID: " + usuario.getId();

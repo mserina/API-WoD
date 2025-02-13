@@ -41,10 +41,11 @@ public class UsuarioControlador {
     /*---------------------------------METODOS---------------------------------*/
     
  //Para agregar un usuario nuevo
-    @PostMapping
-    public String agregarUsuario(@RequestBody UsuarioModelo usuario) {
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/crear")
+    public UsuarioModelo agregarUsuario(@RequestBody UsuarioModelo usuario) {
         usuarioServicios.agregarUsuario(usuario);
-        return "Usuario añadido con éxito, ID: " + usuario.getId();
+        return usuario;
     }
     
      
@@ -116,6 +117,7 @@ public class UsuarioControlador {
     
     
   //Borra un usuario por id
+    
     @DeleteMapping("/borrar/{id}")
     public String borrarUsuario(@PathVariable Long id) {
     	
@@ -129,24 +131,13 @@ public class UsuarioControlador {
     
     
     
-    
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/modificar")
-    public ResponseEntity<?> modificarUsuario(@RequestParam String correoElectronico, @RequestParam String campo, @RequestParam String nuevoValor) {
+    public Optional<UsuarioModelo> modificarUsuario(@RequestParam String correoElectronico, @RequestParam String campo, @RequestParam String nuevoValor) {
         
     	// Llamar al servicio para modificar el usuario
         Optional<UsuarioModelo> usuario = usuarioServicios.modificarUsuario(correoElectronico, campo, nuevoValor);
-
-        // Si el usuario fue encontrado y modificado
-        if (usuario.isPresent()) {
-            return ResponseEntity.ok(Map.of(
-                "mensaje", "Usuario modificado exitosamente",
-                "usuario", usuario.get()
-            ));
-        } else {
-            // Si no se encuentra el usuario o el campo no es válido
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body(Map.of("mensaje", "Error: No se pudo modificar el usuario"));
-        }
+        return usuario;
     }
     
     

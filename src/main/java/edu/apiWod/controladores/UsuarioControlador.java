@@ -117,12 +117,12 @@ public class UsuarioControlador {
     
     
   //Borra un usuario por id
-    
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/borrar/{id}")
-    public String borrarUsuario(@PathVariable Long id) {
+    public Optional<UsuarioModelo> borrarUsuario(@PathVariable Long id) {
     	
         usuarioServicios.borrarUsuario(id);
-        return "Usuario borrado con éxito"; // Devuelve un mensaje de éxito
+        return usuarioServicios.mostrarUnUsuario(id); // Devuelve un mensaje de éxito
     }
 
     

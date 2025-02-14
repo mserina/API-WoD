@@ -90,7 +90,7 @@ public class UsuarioServicio {
 	                case "correo_electronico":
 	                    u.setCorreoElectronico(nuevoValor);
 	                    break;
-	                case "tipo_usuario":
+	                case "tipo_usuario":	
 	                    u.setTipoUsuario(nuevoValor);
 	                    break;
 	                case "contrasena":

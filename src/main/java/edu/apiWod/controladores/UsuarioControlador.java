@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import dtos.LoginDto;
 import edu.apiWod.modelos.UsuarioModelo;
 import edu.apiWod.servicios.UsuarioServicio;
 	
@@ -41,7 +42,6 @@ public class UsuarioControlador {
     /*---------------------------------METODOS---------------------------------*/
     
  //Para agregar un usuario nuevo
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/crear")
     public UsuarioModelo agregarUsuario(@RequestBody UsuarioModelo usuario) {
         usuarioServicios.agregarUsuario(usuario);
@@ -49,7 +49,11 @@ public class UsuarioControlador {
     }
     
      
-   
+   @PostMapping("/login")
+   public boolean login(@RequestBody LoginDto datos) {
+	   boolean respuestaLogin = usuarioServicios.login(datos.getCorreoElectronico(), datos.getContrasena());
+	   return respuestaLogin;
+   }
     
     
     

@@ -22,30 +22,19 @@ public class UsuarioServicio {
 	    private UsuarioRepositorio usuarioRepositorio;
 
 	 
-	 
-	 
-	 
-	 
-	    
+ 
 	 //Método para agregar un nuevo usuario a la base de datos
 	    public void agregarUsuario(UsuarioModelo  usuario) {
 	        usuarioRepositorio.save(usuario);  // Guarda el usuario utilizando el repositorio
 	    }
-	    
-	    
-	    
-	    
-	    
-	    
-	    
+	   
 	   
 	 //Obtener todos los usuarios
 	    public List<UsuarioModelo > obtenerTodosUsuarios() {
 	        return usuarioRepositorio.findAll();
 	    }
 	    
-	    
-	    
+	     
 	    /**
 	     * Método para obtener un usuario específico de la base de datos dado su ID 
 	     * @param idUsuario ID del usuario que se desea buscar.
@@ -65,6 +54,32 @@ public class UsuarioServicio {
 	    }
 
 	    
+	    /**
+	     * Metodo que autentifica usuarios
+	     * msm - 190225
+	     * @param email
+	     * @param contrasena
+	     * @return Un boolean que indica si inicio sesion o no
+	     */
+	    public boolean login(String email, String contrasena) {
+	    	boolean respuestaLogin = false;
+	        
+	        // Obtener la lista de usuarios desde la API o base de datos
+	        List<UsuarioModelo> usuarios = obtenerTodosUsuarios(); 
+	        
+	        // Buscar el usuario por email
+	        for (UsuarioModelo usuario : usuarios) {
+	            if (usuario.getCorreoElectronico().equals(email)) {
+	                // Comparar contraseñas
+	                if (usuario.getContrasena().equals(contrasena)) { 
+	                    respuestaLogin = true;
+	                }
+	             
+	                break; 
+	            }
+	        }
+	        return respuestaLogin;
+	    }
 	    
 	    
 	    

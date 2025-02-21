@@ -51,6 +51,7 @@ public class UsuarioServicio {
 	  //Método para borrar un usuario de la base de datos dado su ID
 	    public void borrarUsuario(Long idUsuario) {
 	        usuarioRepositorio.deleteById(idUsuario);  // Elimina el club utilizando su ID
+	       
 	    }
 
 	    
@@ -83,7 +84,7 @@ public class UsuarioServicio {
 	    
 	    
 	    
-	    public Optional<UsuarioModelo > modificarUsuario(String correoElectronico, String campo, String nuevoValor) {
+	    public Optional<UsuarioModelo> modificarUsuario(String correoElectronico, String campo, String nuevoValor) {
 	    	// Buscar al usuario por su correo electrónico
 	        Optional<UsuarioModelo > usuarioBD = usuarioRepositorio.findAll().stream()
 	                .peek(u -> logger.info("Comparando con usuario: {}", u.getCorreoElectronico()))
@@ -93,7 +94,7 @@ public class UsuarioServicio {
 
 	        // Si se encuentra el usuario, se actualiza el campo
 	        if (usuarioBD.isPresent()) {
-	        	UsuarioModelo  u = usuarioBD.get();
+	        	UsuarioModelo u = usuarioBD.get();
 
 	            switch (campo.toLowerCase()) {
 	                case "nombre_completo":
@@ -119,8 +120,7 @@ public class UsuarioServicio {
 	            
 	            }
 
-	            // Guardar el usuario modificado
-	            usuarioRepositorio.save(u);
+	            usuarioRepositorio.save(u);  // Guardar el usuario modificado
 	            return Optional.of(u);  // Devolver el usuario actualizado
 	        }
 

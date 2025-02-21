@@ -37,9 +37,24 @@ public class UsuarioControlador {
 
     
     
+    @PostMapping("/login")
+    public boolean login(@RequestBody LoginDto datos) {
+ 	   boolean respuestaLogin = usuarioServicios.login(datos.getCorreoElectronico(), datos.getContrasena());
+ 	   return respuestaLogin;
+    }
+     
+     
+     
+  //Probar conexion WEB - API
+     @GetMapping("/ping")
+     public ResponseEntity<String> pingApi() {
+     	
+         // Devuelve un mensaje simple para indicar que la API está viva
+         return ResponseEntity.ok("Pong");
+     }
+
     
-    
-    /*---------------------------------METODOS---------------------------------*/
+    /*--------------------------------- CRUD DE USUARIOS ---------------------------------*/
     
  //Para agregar un usuario nuevo
     @PostMapping("/crear")
@@ -48,31 +63,9 @@ public class UsuarioControlador {
         return usuario;
     }
     
-     
-   @PostMapping("/login")
-   public boolean login(@RequestBody LoginDto datos) {
-	   boolean respuestaLogin = usuarioServicios.login(datos.getCorreoElectronico(), datos.getContrasena());
-	   return respuestaLogin;
-   }
-    
-    
-    
- //Probar conexion WEB - API
-    @GetMapping("/ping")
-    public ResponseEntity<String> pingApi() {
-    	
-        // Devuelve un mensaje simple para indicar que la API está viva
-        return ResponseEntity.ok("Pong");
-    }
-
-    
-    
-    
-    
-    
+         
   //Saca todo los usuarios de la base de datos  
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/todos")
+    @GetMapping("/mostrarUsuarios")
     public ResponseEntity<List<UsuarioModelo>> obtenerTodosUsuarios() {
         
     	// Registro del inicio de la solicitud
@@ -98,45 +91,40 @@ public class UsuarioControlador {
         return ResponseEntity.ok(usuarios);
     }
     
-    
-    
-    
-    
- // Endpoint para obtener un usuario por su ID
+      
+ //Endpoint para obtener un usuario por su ID
     @GetMapping("/mostrarUsuario/{id}")
     public ResponseEntity<?> mostrarUnUsuario(@PathVariable Long id) {
-        Optional<UsuarioModelo> usuario = usuarioServicios.mostrarUnUsuario(id);
+        
+    	Optional<UsuarioModelo> usuario = usuarioServicios.mostrarUnUsuario(id);
 
-        // Verificar si el usuario existe
-        if (usuario.isPresent()) {
+        
+        if (usuario.isPresent()) {  // Verificar si el usuario existe
             return ResponseEntity.ok(usuario.get()); // 200 OK con el usuario encontrado
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                 .body(Map.of("mensaje", "Usuario no encontrado")); // 404 Not Found con mensaje
+            			.body(Map.of("mensaje", "Usuario no encontrado")); // 404 Not Found con mensaje
+        }
+    }
+ 
+    
+  //Borra un usuario por id
+    @DeleteMapping("/borrar/{id}")
+    public ResponseEntity<?> borrarUsuario(@PathVariable Long id) {
+        Optional<UsuarioModelo> usuario = usuarioServicios.mostrarUnUsuario(id);
+
+        if (usuario.isPresent()) {
+            usuarioServicios.borrarUsuario(id); // Llamada al servicio que elimina el usuario
+            return ResponseEntity.ok(Map.of("mensaje", "Usuario " + usuario.get().getNombreCompleto() + " ha sido eliminado"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(Map.of("mensaje", "Usuario no encontrado"));
         }
     }
 
     
-    
-    
-    
-  //Borra un usuario por id
-    @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping("/borrar/{id}")
-    public Optional<UsuarioModelo> borrarUsuario(@PathVariable Long id) {
-    	
-        usuarioServicios.borrarUsuario(id);
-        return usuarioServicios.mostrarUnUsuario(id); // Devuelve un mensaje de éxito
-    }
-
-    
-    
-    
-    
-    
-    
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping("/modificar")
+    //Para editar campos de usuarios
+    @PutMapping("/modificarUsuarios")
     public Optional<UsuarioModelo> modificarUsuario(@RequestParam String correoElectronico, @RequestParam String campo, @RequestParam String nuevoValor) {
         
     	// Llamar al servicio para modificar el usuario
@@ -145,8 +133,7 @@ public class UsuarioControlador {
     }
     
     
-
-
+   
 
 
 }

@@ -51,7 +51,6 @@ public class UsuarioControlador {
      
    @PostMapping("/login")
    public boolean login(@RequestBody LoginDto datos) {
-	   System.out.println(datos.getCorreoElectronico());
 	   boolean respuestaLogin = usuarioServicios.login(datos.getCorreoElectronico(), datos.getContrasena());
 	   return respuestaLogin;
    }

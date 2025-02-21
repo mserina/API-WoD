@@ -65,10 +65,10 @@ public class UsuarioServicio {
 	    	boolean respuestaLogin = false;
 	        
 	        // Obtener la lista de usuarios desde la API o base de datos
-	        List<UsuarioModelo> usuariosLista = obtenerTodosUsuarios(); 
+	        List<UsuarioModelo> usuarios = obtenerTodosUsuarios(); 
 	        
 	        // Buscar el usuario por email
-	        for (UsuarioModelo usuario : usuariosLista) {
+	        for (UsuarioModelo usuario : usuarios) {
 	            if (usuario.getCorreoElectronico().equals(email)) {
 	                // Comparar contraseñas
 	                if (usuario.getContrasena().equals(contrasena)) { 

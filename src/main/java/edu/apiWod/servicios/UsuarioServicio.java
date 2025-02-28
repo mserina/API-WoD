@@ -62,9 +62,9 @@ public class UsuarioServicio {
 	     * @param contrasena
 	     * @return Un boolean que indica si inicio sesion o no
 	     */
-	    public boolean login(String email, String contrasena) {
-	    	boolean respuestaLogin = false;
-	        
+	    public UsuarioModelo login(String email, String contrasena) {
+	    	
+	    	UsuarioModelo usuarioDatos = new UsuarioModelo();
 	        // Obtener la lista de usuarios desde la API o base de datos
 	        List<UsuarioModelo> usuarios = obtenerTodosUsuarios(); 
 	        
@@ -73,13 +73,16 @@ public class UsuarioServicio {
 	            if (usuario.getCorreoElectronico().equals(email)) {
 	                // Comparar contraseñas
 	                if (usuario.getContrasena().equals(contrasena)) { 
-	                    respuestaLogin = true;
-	                }
-	             
+	                	usuarioDatos = usuario;	
+	                }	                
 	                break; 
 	            }
+	            
 	        }
-	        return respuestaLogin;
+	        if (usuarioDatos.getCorreoElectronico() == null) {
+	        	usuarioDatos = null;
+	        }
+	        return usuarioDatos;
 	    }
 	    
 	    

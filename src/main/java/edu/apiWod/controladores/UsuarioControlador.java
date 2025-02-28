@@ -38,9 +38,10 @@ public class UsuarioControlador {
     
     
     @PostMapping("/login")
-    public boolean login(@RequestBody LoginDto datos) {
- 	   boolean respuestaLogin = usuarioServicios.login(datos.getCorreoElectronico(), datos.getContrasena());
- 	   return respuestaLogin;
+    public UsuarioModelo login(@RequestBody LoginDto datos) {
+ 	   
+       UsuarioModelo usuarioDatos = usuarioServicios.login(datos.getCorreoElectronico(), datos.getContrasena());
+ 	   return usuarioDatos;
     }
      
      

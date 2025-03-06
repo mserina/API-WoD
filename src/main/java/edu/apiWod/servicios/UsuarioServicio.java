@@ -63,13 +63,10 @@ public class UsuarioServicio {
 	     * @return Un boolean que indica si inicio sesion o no
 	     */
 	    public UsuarioModelo login(String email, String contrasena) {
-<<<<<<< HEAD
-	        UsuarioModelo usuarioEncontrado = new UsuarioModelo();
-	    	
-=======
-	    	
-	    	UsuarioModelo usuarioDatos = new UsuarioModelo();
->>>>>>> 3ae4694c8237f45801d1a98e15e0529274b8a80d
+	       
+	    	UsuarioModelo usuarioEncontrado = new UsuarioModelo();
+
+
 	        // Obtener la lista de usuarios desde la API o base de datos
 	        List<UsuarioModelo> usuarios = obtenerTodosUsuarios(); 
 	        
@@ -78,26 +75,17 @@ public class UsuarioServicio {
 	            if (usuario.getCorreoElectronico().equals(email)) {
 	                // Comparar contraseñas
 	                if (usuario.getContrasena().equals(contrasena)) { 
-<<<<<<< HEAD
+
 	                    usuarioEncontrado = usuario;
 	                }
 	             
-=======
-	                	usuarioDatos = usuario;	
-	                }	                
->>>>>>> 3ae4694c8237f45801d1a98e15e0529274b8a80d
 	                break; 
 	            }
 	            
 	        }
-<<<<<<< HEAD
+	       
 	        return usuarioEncontrado;
-=======
-	        if (usuarioDatos.getCorreoElectronico() == null) {
-	        	usuarioDatos = null;
-	        }
-	        return usuarioDatos;
->>>>>>> 3ae4694c8237f45801d1a98e15e0529274b8a80d
+
 	    }
 	    
 	    

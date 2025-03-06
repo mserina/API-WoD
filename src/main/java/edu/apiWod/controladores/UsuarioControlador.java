@@ -36,8 +36,6 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioServicio usuarioServicios;
 
-    
-    
 
     /**
      * Endpoint para autenticar un usuario en la aplicación.

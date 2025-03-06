@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import edu.apiWod.modelos.UsuarioModelo;
 import edu.apiWod.repositorios.UsuarioRepositorio;
 
+/**
+ * Contiene la logica de las funciones del usuario hacia la base de datos
+ * msm - 060325
+ */
 @Service
 public class UsuarioServicio {
 
@@ -23,13 +27,21 @@ public class UsuarioServicio {
 
 	 
  
-	 //Método para agregar un nuevo usuario a la base de datos
+	 /**
+	  * Método para agregar un nuevo usuario a la base de datos
+	  * msm - 060325
+	  * @param usuario recoge los datos del usuario nuevo
+	  */
 	    public void agregarUsuario(UsuarioModelo  usuario) {
 	        usuarioRepositorio.save(usuario);  // Guarda el usuario utilizando el repositorio
 	    }
 	   
 	   
-	 //Obtener todos los usuarios
+	 /**
+	  * Obtener todos los usuarios
+	  * msm - 060325
+	  * @return una lista con todo los usuarios
+	  */
 	    public List<UsuarioModelo > obtenerTodosUsuarios() {
 	        return usuarioRepositorio.findAll();
 	    }
@@ -48,7 +60,11 @@ public class UsuarioServicio {
 	    
 	    
 	   
-	  //Método para borrar un usuario de la base de datos dado su ID
+	  /**
+	   * Método para borrar un usuario de la base de datos dado su ID
+	   * msm - 060325
+	   * @param idUsuario 
+	   */
 	    public void borrarUsuario(Long idUsuario) {
 	        usuarioRepositorio.deleteById(idUsuario);  // Elimina el club utilizando su ID
 	       
@@ -89,7 +105,14 @@ public class UsuarioServicio {
 	    }
 	    
 	    
-	    
+	    /**
+	     * Metodo que modifica un usuario en base al correo
+	     * msm - 060325
+	     * @param correoElectronico
+	     * @param campo
+	     * @param nuevoValor
+	     * @return Optional<UsuarioModelo> que contiene el usuario si existe, o vacío si no se encuentra.
+	     */
 	    public Optional<UsuarioModelo> modificarUsuario(String correoElectronico, String campo, String nuevoValor) {
 	    	// Buscar al usuario por su correo electrónico
 	        Optional<UsuarioModelo > usuarioBD = usuarioRepositorio.findAll().stream()

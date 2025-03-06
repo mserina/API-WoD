@@ -8,7 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+/**
+ * Contiene los campos usuario que se usaran para la base de datos
+ * msm - 060325
+ */
 @Entity
 @Table(name = "usuario",  schema = "administracion_usuarios")  // Especifica el nombre de la tabla en la base de datos
 public class UsuarioModelo {

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"configuraciones"},{"l":"dtos"},{"l":"edu.apiWod"},{"l":"edu.apiWod.controladores"},{"l":"edu.apiWod.modelos"},{"l":"edu.apiWod.repositorios"},{"l":"edu.apiWod.servicios"}];updateSearchResults();

@@ -32,7 +32,7 @@ public class UsuarioServicio {
 	  * msm - 060325
 	  * @param usuario recoge los datos del usuario nuevo
 	  */
-	    public void agregarUsuario(UsuarioModelo  usuario) {
+	    public void agregarUsuario(UsuarioModelo usuario) {
 	        usuarioRepositorio.save(usuario);  // Guarda el usuario utilizando el repositorio
 	    }
 	   

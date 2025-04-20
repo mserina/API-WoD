@@ -1,7 +1,5 @@
 package edu.apiWod.modelos;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +37,9 @@ public class UsuarioModelo {
 
 	    @Column(name = "foto", nullable = false, length = 255)
 	    private String foto;
+	    
+	    @Column(name = "codigoRegistro", nullable = false, length = 255)
+	    private String codigoVerificacion;
 
 	
 	    
@@ -47,7 +48,6 @@ public class UsuarioModelo {
 
 	    
 	    // Getters y Setters
-	    
 	    public Long getId() {
 	        return id;
 	    }
@@ -104,6 +104,13 @@ public class UsuarioModelo {
 	        this.foto = foto;
 	    }
 	    
+	    public String getCodigoVerificacion() {
+	        return codigoVerificacion;
+	    }
+
+	    public void setCodigoRegistro(String codigoVerificacion) {
+	        this.codigoVerificacion = codigoVerificacion;
+	    }
 	   
 	   
 	    @Override

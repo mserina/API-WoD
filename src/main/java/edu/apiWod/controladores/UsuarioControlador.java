@@ -52,6 +52,7 @@ public class UsuarioControlador {
 
     /*--------------------------------- CRUD DE USUARIOS ---------------------------------*/
 
+    
     /**
      * Crea y agrega un nuevo usuario a la base de datos.
      *
@@ -64,6 +65,7 @@ public class UsuarioControlador {
         return usuario;
     }
 
+    
     /**
      * Obtiene y devuelve la lista de todos los usuarios almacenados en la base de datos.
      *

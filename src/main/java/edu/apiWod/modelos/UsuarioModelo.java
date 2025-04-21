@@ -40,6 +40,9 @@ public class UsuarioModelo {
 	    
 	    @Column(name = "codigoRegistro", nullable = false, length = 255)
 	    private String codigoVerificacion;
+	    
+	    @Column(name = "verificado", nullable = false)
+	    private boolean verificado;
 
 	
 	    
@@ -111,7 +114,14 @@ public class UsuarioModelo {
 	    public void setCodigoRegistro(String codigoVerificacion) {
 	        this.codigoVerificacion = codigoVerificacion;
 	    }
-	   
+	    
+	    public boolean getVerificado() {
+	        return verificado;
+	    }
+	    
+	    public void setVerificado(boolean verificado) {
+	        this.verificado = verificado;
+	    }
 	   
 	    @Override
 	    public String toString() {

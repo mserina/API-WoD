@@ -144,6 +144,11 @@ public class UsuarioServicio {
 	                case "foto":
 	                    u.setFoto(nuevoValor);
 	                    break;
+	                case "verificado":
+	                	if(nuevoValor.equals("true")) {
+	                		u.setVerificado(true);
+	                	}
+	                    break;
 	                default:
 	                    return Optional.empty(); // Si el campo no es válido, devolvemos un Optional vacío
 	            

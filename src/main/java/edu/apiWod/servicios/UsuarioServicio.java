@@ -91,16 +91,14 @@ public class UsuarioServicio {
 	            if (usuario.getCorreoElectronico().equals(email)) {
 	                // Comparar contraseñas
 	                if (usuario.getContrasena().equals(contrasena)) { 
-
 	                    usuarioEncontrado = usuario;
 	                }
 	             
 	                break; 
-	            }
-	            
+	            }  
 	        }
 	       
-	        return usuarioEncontrado;
+	        return usuarioEncontrado = null;
 
 	    }
 	    

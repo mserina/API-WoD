@@ -41,7 +41,7 @@ public class UsuarioModelo {
 	    @Column(name = "codigoRegistro", nullable = false, length = 255)
 	    private String codigoVerificacion;
 	    
-	    @Column(name = "verificado", nullable = false)
+	    @Column(name = "verificado")
 	    private boolean verificado;
 
 	

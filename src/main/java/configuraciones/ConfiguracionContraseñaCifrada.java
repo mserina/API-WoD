@@ -6,12 +6,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class CodificacionContrasena {
+public class ConfiguracionContraseñaCifrada {
 
-    /**
-     * Bean que Spring usará para cifrar/descifrar contraseñas.
-     * BCrypt es el algoritmo recomendado.
-     */
+    /** BCryptPasswordEncoder será usado por Spring para cifrar (y verificar) contraseñas */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

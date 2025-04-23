@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * msm - 060324
  * @param args
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = { "edu.apiWod", "configuraciones" })
+
 public class ApiWodApplication {
 
 	/**

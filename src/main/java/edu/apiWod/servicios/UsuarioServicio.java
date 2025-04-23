@@ -23,10 +23,15 @@ public class UsuarioServicio {
   //El logger se usa para registrar eventos y mensajes de depuración.
 	private static final Logger logger = LoggerFactory.getLogger(UsuarioServicio.class);
 	
+	
+	 @Autowired
+	    private PasswordEncoder cifradoContraseña;
+	 
 	 @Autowired // Inyección de dependencias para el repositorio de usuarios
 	 private UsuarioRepositorio usuarioRepositorio;
-	 @Autowired
-	 private PasswordEncoder cifradoContraseña;
+		/*
+		 * @Autowired private PasswordEncoder cifradoContraseña;
+		 */
 	 
  
 	 /**
@@ -72,7 +77,7 @@ public class UsuarioServicio {
 	       
 	    }
 
-	    
+	    	
 	    /**
 	     * Metodo que autentifica usuarios
 	     * msm - 190225
@@ -88,17 +93,19 @@ public class UsuarioServicio {
 	        // Obtener la lista de usuarios desde la API o base de datos
 	        List<UsuarioModelo> usuarios = obtenerTodosUsuarios(); 
 	        
-	        // Buscar el usuario por email
-	        for (UsuarioModelo usuario : usuarios) {
-	            if (usuario.getCorreoElectronico().equals(email)) {
-	                // Comparar contraseñas
-	            	if (cifradoContraseña.matches(contrasena, usuario.getContrasena())) { 
-	                    usuarioEncontrado = usuario;
-	                }
-	             
-	                break; 
-	            }  
+			
+			  // Buscar el usuario por email 
+	        for (UsuarioModelo usuario : usuarios) { 
+	        	if (usuario.getCorreoElectronico().equals(email)) { 
+	        	// Comparar contraseñas 
+	        		if (cifradoContraseña.matches(contrasena, usuario.getContrasena())) {
+	        			usuarioEncontrado = usuario; 
+	        		}
+			  
+			  break; 
+			  } 
 	        }
+			 
 	       
 	        return usuarioEncontrado = null;
 

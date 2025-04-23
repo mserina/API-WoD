@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import edu.apiWod.modelos.UsuarioModelo;
@@ -23,8 +24,9 @@ public class UsuarioServicio {
 	private static final Logger logger = LoggerFactory.getLogger(UsuarioServicio.class);
 	
 	 @Autowired // Inyección de dependencias para el repositorio de usuarios
-	    private UsuarioRepositorio usuarioRepositorio;
-
+	 private UsuarioRepositorio usuarioRepositorio;
+	 @Autowired
+	 private PasswordEncoder cifradoContraseña;
 	 
  
 	 /**
@@ -90,7 +92,7 @@ public class UsuarioServicio {
 	        for (UsuarioModelo usuario : usuarios) {
 	            if (usuario.getCorreoElectronico().equals(email)) {
 	                // Comparar contraseñas
-	                if (usuario.getContrasena().equals(contrasena)) { 
+	            	if (cifradoContraseña.matches(contrasena, usuario.getContrasena())) { 
 	                    usuarioEncontrado = usuario;
 	                }
 	             

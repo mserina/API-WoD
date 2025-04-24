@@ -100,10 +100,9 @@ public class UsuarioServicio {
 	        	// Comparar contraseñas 
 	        		if (cifradoContraseña.matches(contrasena, usuario.getContrasena())) {
 	        			usuarioEncontrado = usuario; 
-	        		}
-			  
-			  break; 
-			  } 
+	        			return usuarioEncontrado;
+	        		} 
+	        	} 
 	        }
 			 
 	       

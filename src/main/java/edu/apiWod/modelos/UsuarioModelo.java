@@ -38,8 +38,8 @@ public class UsuarioModelo {
 	    @Column(name = "foto", nullable = false, length = 255)
 	    private String foto;
 	    
-	    @Column(name = "codigoRegistro", nullable = false, length = 255)
-	    private String codigoVerificacion;
+	    @Column(name = "tokenRecuperacion", nullable = false, length = 255)
+	    private String tokenRecuperacion;
 	    
 	    @Column(name = "verificado")
 	    private boolean verificado;
@@ -107,12 +107,12 @@ public class UsuarioModelo {
 	        this.foto = foto;
 	    }
 	    
-	    public String getCodigoVerificacion() {
-	        return codigoVerificacion;
+	    public String getTokenRecuperacion() {
+	        return tokenRecuperacion;
 	    }
 
-	    public void setCodigoRegistro(String codigoVerificacion) {
-	        this.codigoVerificacion = codigoVerificacion;
+	    public void setTokenRecuperacion(String tokenRecuperacion) {
+	        this.tokenRecuperacion = tokenRecuperacion;
 	    }
 	    
 	    public boolean getVerificado() {

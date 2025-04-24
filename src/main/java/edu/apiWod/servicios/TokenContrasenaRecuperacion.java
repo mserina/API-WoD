@@ -20,19 +20,24 @@ public class TokenContrasenaRecuperacion {
 	 @Autowired private UsuarioRepositorio usuarioRepo;
 	 @Autowired private PasswordEncoder cifradoContrasena;
 	 
-	 public void createPasswordResetTokenForEmail(String email, String appUrl) {
+	 public String creacionTokenRecuperacion(String email) {
 		//Busca al usuario por correo y borra el token anterior (en el caso de que exisitiera token)	 
 		UsuarioModelo usuario = usuarioRepo.findByCorreoElectronico(email);
-		if(usuario) {
+		if(usuario == null) {
 	        throw new UsuarioNoEncontradoExcepcion("No existe usuario con ese correo: " + email);
 		}
-	    tokenRepo.deleteByUser(usuario);
-
 	    
+		tokenRepo.deleteByUser(usuario);
+
 		String token = UUID.randomUUID().toString();
 		TokenRecuperacionContrasena tokenNuevo = new TokenRecuperacionContrasena();
-		tokenNuevo.setUser(usuario.getId());
+		tokenNuevo.setUsuario(usuario);
 		tokenNuevo.setToken(token);
-		tokenNuevo.setExpiryDate(LocalDateTime.now().plusHours(1));
-	    tokenRepo.save(prt);
+		tokenNuevo.setExpiracion_token(LocalDateTime.now().plusHours(1));
+	    
+		tokenRepo.save(tokenNuevo);
+	
+	    return token;
+	    
+	 }
 }

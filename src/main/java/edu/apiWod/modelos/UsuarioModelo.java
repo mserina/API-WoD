@@ -1,10 +1,15 @@
 package edu.apiWod.modelos;
 
+
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 /**
  * Contiene los campos usuario que se usaran para la base de datos
@@ -43,9 +48,9 @@ public class UsuarioModelo {
 	    
 	    @Column(name = "verificado")
 	    private boolean verificado;
-
 	
-	    
+	    @OneToOne(mappedBy = "usuario", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
+	    private TokenRecuperacionContrasena resetToken;
 	   
 	    
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dtos.LoginDto;
 import edu.apiWod.modelos.UsuarioModelo;
+import edu.apiWod.servicios.TokenContrasenaRecuperacion;
 import edu.apiWod.servicios.UsuarioServicio;
 
 /**
@@ -35,7 +36,8 @@ public class UsuarioControlador {
     /** Servicio encargado de la lógica de negocio de los usuarios */
     @Autowired
     private UsuarioServicio usuarioServicios;
-
+    @Autowired
+    private TokenContrasenaRecuperacion tokenServicio;
 
     
     /**
@@ -128,6 +130,16 @@ public class UsuarioControlador {
             @RequestParam String campo,
             @RequestParam String nuevoValor) {
         return usuarioServicios.modificarUsuario(correoElectronico, campo, nuevoValor);
+    }
+    
+  
+    //--------------METODOS PARA TOKEN RECUPERACION CONTRASEÑA -----------------//
+    
+    @PostMapping("/request")
+    public ResponseEntity<?> peticionReinicioContrasena(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        String token = tokenServicio.creacionTokenRecuperacion(email);
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
@@ -24,8 +25,9 @@ public class TokenRecuperacionContrasena {
 	  @Column(name = "token", nullable = false, unique = true, length = 255)
 	  private String token;
 
-	  @Column(name="usuario_id",  nullable = false, unique = true)
-	  private UsuarioModelo user;
+	  @OneToOne(fetch = FetchType.LAZY, optional = false)
+	  @JoinColumn(name = "user_id", nullable = false, unique = true)
+	  private UsuarioModelo usuario;
 
 	  @Column(name="expiracion_token", nullable = false)
 	  private LocalDateTime expiracion_token;
@@ -47,12 +49,12 @@ public class TokenRecuperacionContrasena {
 			this.token = token;
 		}
 
-		public UsuarioModelo getUser() {
-			return user;
+		public UsuarioModelo getUsuario() {
+			return usuario;
 		}
 
-		public void setUser(UsuarioModelo user) {
-			this.user = user;
+		public void setUsuario(UsuarioModelo usuario) {
+			this.usuario = usuario;
 		}
 
 		public LocalDateTime getExpiracion_token() {

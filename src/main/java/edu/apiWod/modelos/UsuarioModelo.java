@@ -1,8 +1,7 @@
 package edu.apiWod.modelos;
 
-
-
 import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -43,7 +42,7 @@ public class UsuarioModelo {
 	    @Column(name = "foto", nullable = false, length = 255)
 	    private String foto;
 	    
-	    @Column(name = "tokenRecuperacion", nullable = false, length = 255)
+	    @Column(name = "tokenRecuperacion", length = 255)
 	    private String tokenRecuperacion;
 	    
 	    @Column(name = "verificado")

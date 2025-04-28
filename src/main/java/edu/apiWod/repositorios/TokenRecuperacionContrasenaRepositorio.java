@@ -13,5 +13,5 @@ import edu.apiWod.modelos.UsuarioModelo;
 public interface TokenRecuperacionContrasenaRepositorio extends JpaRepository<TokenRecuperacionContrasena , Long> {
   
 	TokenRecuperacionContrasena findByToken(String token);
-	void deleteByUser(UsuarioModelo usuario);
+	void deleteByUsuario(UsuarioModelo usuario);
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import edu.apiWod.modelos.TokenRecuperacionContrasena;
 import edu.apiWod.modelos.UsuarioModelo;
@@ -13,7 +14,7 @@ import edu.apiWod.repositorios.TokenRecuperacionContrasenaRepositorio;
 import edu.apiWod.repositorios.UsuarioRepositorio;
 import excepciones.UsuarioNoEncontradoExcepcion;
 
-
+@Service
 public class TokenContrasenaRecuperacion {
 
 	 @Autowired private TokenRecuperacionContrasenaRepositorio tokenRepo;
@@ -27,7 +28,7 @@ public class TokenContrasenaRecuperacion {
 	        throw new UsuarioNoEncontradoExcepcion("No existe usuario con ese correo: " + email);
 		}
 	    
-		tokenRepo.deleteByUser(usuario);
+		tokenRepo.deleteByUsuario(usuario);
 
 		String token = UUID.randomUUID().toString();
 		TokenRecuperacionContrasena tokenNuevo = new TokenRecuperacionContrasena();

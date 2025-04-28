@@ -29,7 +29,7 @@ public class TokenContrasenaRecuperacion {
 		}
 	    
 		tokenRepo.deleteByUsuario(usuario);
-
+			
 		String token = UUID.randomUUID().toString();
 		TokenRecuperacionContrasena tokenNuevo = new TokenRecuperacionContrasena();
 		tokenNuevo.setUsuario(usuario);

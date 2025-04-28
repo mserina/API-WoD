@@ -135,7 +135,7 @@ public class UsuarioControlador {
   
     //--------------METODOS PARA TOKEN RECUPERACION CONTRASEÑA -----------------//
     
-    @PostMapping("/request")
+    @PostMapping("/peticionIntrucciones")
     public ResponseEntity<?> peticionReinicioContrasena(@RequestBody Map<String, String> body) {
         String email = body.get("email");
         String token = tokenServicio.creacionTokenRecuperacion(email);

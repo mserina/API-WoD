@@ -34,11 +34,29 @@ public class TokenContrasenaRecuperacion {
 		TokenRecuperacionContrasena tokenNuevo = new TokenRecuperacionContrasena();
 		tokenNuevo.setUsuario(usuario);
 		tokenNuevo.setToken(token);
-		tokenNuevo.setExpiracion_token(LocalDateTime.now().plusHours(1));
+		tokenNuevo.setExpiracionToken(LocalDateTime.now().plusHours(1));
 	    
 		tokenRepo.save(tokenNuevo);
 	
 	    return token;
 	    
 	 }
+	 
+	 /**
+	  * Comprueba que el token existe y no ha expirado.
+	  * msm - 290425
+	  * @throws IllegalArgumentException si no existe o está expirado.
+	  */
+	    public void validarToken(String token) {
+	      TokenRecuperacionContrasena respuestaValidacion = tokenRepo.findByToken(token);
+	        
+	      if (respuestaValidacion == null) {
+	          throw new IllegalArgumentException("Token inválido");
+	      }
+	        
+	      if (respuestaValidacion.getExpiracionToken().isBefore(LocalDateTime.now())) {
+	          throw new IllegalArgumentException("Token expirado");
+	      }
+	      // Token válido -> nada más que hacer
+	  }
 }

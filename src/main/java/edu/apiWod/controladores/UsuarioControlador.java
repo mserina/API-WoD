@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import dtos.LoginDto;
 import edu.apiWod.modelos.UsuarioModelo;
@@ -125,10 +126,7 @@ public class UsuarioControlador {
      * @return El usuario actualizado en un Optional o vacío si no se encontró.
      */
     @PutMapping("/modificarUsuarios")
-    public Optional<UsuarioModelo> modificarUsuario(
-            @RequestParam String correoElectronico,
-            @RequestParam String campo,
-            @RequestParam String nuevoValor) {
+    public Optional<UsuarioModelo> modificarUsuario(@RequestParam String correoElectronico, @RequestParam String campo, @RequestParam String nuevoValor) {
         return usuarioServicios.modificarUsuario(correoElectronico, campo, nuevoValor);
     }
     
@@ -141,5 +139,28 @@ public class UsuarioControlador {
         String token = tokenServicio.creacionTokenRecuperacion(email);
         return ResponseEntity.ok(Map.of("token", token));
     }
+    
+    /**
+     * Comprueba que el token es correcto y que no a expirado
+     * msm - 290425
+     * @param token
+     */
+    @GetMapping("/validarToken")
+    public void validateToken(@RequestParam String token) {
+        try {
+            tokenServicio.validarToken(token);
+            
+        } catch (IllegalArgumentException ex) {
+            // 404 si no existe, 400 si expiró
+        	
+            if ("Token inválido".equals(ex.getMessage())) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+            }
+        }
+    }
 
+    
+    
 }

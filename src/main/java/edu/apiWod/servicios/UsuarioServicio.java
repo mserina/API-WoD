@@ -1,5 +1,6 @@
 package edu.apiWod.servicios;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import edu.apiWod.modelos.TokenRecuperacionContrasena;
 import edu.apiWod.modelos.UsuarioModelo;
+import edu.apiWod.repositorios.TokenRecuperacionContrasenaRepositorio;
 import edu.apiWod.repositorios.UsuarioRepositorio;
 
 /**
@@ -25,10 +28,14 @@ public class UsuarioServicio {
 	
 	
 	 @Autowired
-	    private PasswordEncoder cifradoContraseña;
+	 private PasswordEncoder cifradoContraseña;
 	 
 	 @Autowired // Inyección de dependencias para el repositorio de usuarios
 	 private UsuarioRepositorio usuarioRepositorio;
+	 
+	 @Autowired //Inyeccion de dependecias para el repositori de los token de recuperacion
+	 private TokenRecuperacionContrasenaRepositorio tokenRepo;
+	 
 		/*
 		 * @Autowired private PasswordEncoder cifradoContraseña;
 		 */
@@ -165,6 +172,6 @@ public class UsuarioServicio {
 	        }
 
 	        return Optional.empty();  // Si no se encuentra el usuario, devolver un Optional vacío
-	    }
+	    }	  
 	    
 }

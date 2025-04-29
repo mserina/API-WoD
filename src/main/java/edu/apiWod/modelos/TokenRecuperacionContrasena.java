@@ -30,7 +30,7 @@ public class TokenRecuperacionContrasena {
 	  private UsuarioModelo usuario;
 
 	  @Column(name="expiracion_token", nullable = false)
-	  private LocalDateTime expiracion_token;
+	  private LocalDateTime expiracionToken;
 
 	  
 	  	public Long getId() {
@@ -57,12 +57,12 @@ public class TokenRecuperacionContrasena {
 			this.usuario = usuario;
 		}
 
-		public LocalDateTime getExpiracion_token() {
-			return expiracion_token;
+		public LocalDateTime getExpiracionToken() {
+			return expiracionToken;
 		}
 
-		public void setExpiracion_token(LocalDateTime expiracion_token) {
-			this.expiracion_token = expiracion_token;
+		public void setExpiracionToken(LocalDateTime expiracionToken) {
+			this.expiracionToken = expiracionToken;
 		}
 
 }

@@ -160,6 +160,15 @@ public class UsuarioControlador {
             }
         }
     }
+    
+    
+    @PostMapping("/reiniciarContrasena")
+    public ResponseEntity<Void> resetPassword(@RequestBody Map<String, String> body) {
+        String token = body.get("token");
+        String contrasenaNueva = body.get("contrasenaNueva");
+        tokenServicio.cambiarContrasena(token, contrasenaNueva);
+        return ResponseEntity.ok().build();
+    }
 
     
     

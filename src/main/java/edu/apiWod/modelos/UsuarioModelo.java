@@ -37,12 +37,9 @@ public class UsuarioModelo {
 	    @Column(name = "foto", nullable = false, length = 255)
 	    private String foto;
 
-	    @Column(name = "token", nullable = false, length = 255)
-	    private String token;
-
+	
 	    
-	    @Column(name = "expiracion_token", nullable = false)
-	    private LocalDateTime expiracionToken; 
+	   
 	    
 
 	    
@@ -104,23 +101,7 @@ public class UsuarioModelo {
 	        this.foto = foto;
 	    }
 	    
-	    public String getToken() {
-			return token;
-		}
-
-		public void setToken(String token) {
-			this.token = token;
-		}
-
-
-		public LocalDateTime getExpiracionToken() {
-			return expiracionToken;
-		}
-
-		public void setExpiracionToken(LocalDateTime expiracionToken) {
-			this.expiracionToken = expiracionToken;
-		}
-
+	   
 	   
 	    @Override
 	    public String toString() {

@@ -133,9 +133,15 @@ public class UsuarioControlador {
   
     //--------------METODOS PARA TOKEN RECUPERACION CONTRASEÑA -----------------//
     
+    /**
+     * Revisa que el usuario existe y le asigna un token
+     * msm - 010525
+     * @param cuerpoPeticion email ingresado por el usuario
+     * @return Devuelve una respuesta con el nuevo token del usuario
+     */
     @PostMapping("/peticionIntrucciones")
-    public ResponseEntity<?> peticionReinicioContrasena(@RequestBody Map<String, String> body) {
-        String email = body.get("email");
+    public ResponseEntity<?> peticionReinicioContrasena(@RequestBody Map<String, String> cuerpoPeticion) {
+        String email = cuerpoPeticion.get("email");
         String token = tokenServicio.creacionTokenRecuperacion(email);
         return ResponseEntity.ok(Map.of("token", token));
     }
@@ -143,7 +149,7 @@ public class UsuarioControlador {
     /**
      * Comprueba que el token es correcto y que no a expirado
      * msm - 290425
-     * @param token
+     * @param token token extraido del link del email mandado al usuario
      */
     @GetMapping("/validarToken")
     public void validateToken(@RequestParam String token) {
@@ -161,11 +167,16 @@ public class UsuarioControlador {
         }
     }
     
-    
+    /**
+     * Recibe la nueva contraseña y el token del usuario
+     * msm - 020525
+     * @param cuerpoPeticion, sacamos el token y la nueva contraseña del cuerpo de la peticion
+     * @return devuelve un ResponseEntity, true o false
+     */
     @PostMapping("/reiniciarContrasena")
-    public ResponseEntity<Void> resetPassword(@RequestBody Map<String, String> body) {
-        String token = body.get("token");
-        String contrasenaNueva = body.get("contrasenaNueva");
+    public ResponseEntity<Void> resetPassword(@RequestBody Map<String, String> cuerpoPeticion) {
+        String token = cuerpoPeticion.get("token");
+        String contrasenaNueva = cuerpoPeticion.get("contrasenaNueva");
         tokenServicio.cambiarContrasena(token, contrasenaNueva);
         return ResponseEntity.ok().build();
     }

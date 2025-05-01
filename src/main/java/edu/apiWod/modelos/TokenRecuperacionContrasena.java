@@ -11,7 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-
+/**
+ * Campos de la tabla de los token de los usuarios
+ * msm - 020525
+ */
 @Entity
 @Table(name = "token-recuperacion",  schema = "administracion_usuarios")  // Especifica el nombre de la tabla en la base de datos
 public class TokenRecuperacionContrasena {

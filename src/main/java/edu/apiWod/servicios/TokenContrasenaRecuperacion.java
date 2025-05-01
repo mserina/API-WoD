@@ -14,6 +14,7 @@ import edu.apiWod.repositorios.TokenRecuperacionContrasenaRepositorio;
 import edu.apiWod.repositorios.UsuarioRepositorio;
 import excepciones.UsuarioNoEncontradoExcepcion;
 
+
 @Service
 public class TokenContrasenaRecuperacion {
 
@@ -22,26 +23,32 @@ public class TokenContrasenaRecuperacion {
 	 @Autowired private PasswordEncoder cifradoContrasena;
 	 @Autowired private UsuarioServicio usuarioServicio;
 	 
-		 public String creacionTokenRecuperacion(String email) {
-			//Busca al usuario por correo y borra el token anterior (en el caso de que exisitiera token)	 
-			UsuarioModelo usuario = usuarioRepo.findByCorreoElectronico(email);
-			if(usuario == null) {
-		        throw new UsuarioNoEncontradoExcepcion("No existe usuario con ese correo: " + email);
-			}
-		    
-			tokenRepo.deleteByUsuario(usuario);
-				
-			String token = UUID.randomUUID().toString();
-			TokenRecuperacionContrasena tokenNuevo = new TokenRecuperacionContrasena();
-			tokenNuevo.setUsuario(usuario);
-			tokenNuevo.setToken(token);
-			tokenNuevo.setExpiracionToken(LocalDateTime.now().plusHours(1));
-		    
-			tokenRepo.save(tokenNuevo);
-		
-		    return token;
-		    
-		 }
+	 /**
+	  * Se busca al usuario y se le asigna un token
+	  * msm - 020525
+	  * @param email
+	  * @return devuelve el nuevo token
+	  */
+	public String creacionTokenRecuperacion(String email) {
+		//Busca al usuario por correo y borra el token anterior (en el caso de que exisitiera token)	 
+		UsuarioModelo usuario = usuarioRepo.findByCorreoElectronico(email);
+		if(usuario == null) {
+		       throw new UsuarioNoEncontradoExcepcion("No existe usuario con ese correo: " + email);
+		}
+			    
+		tokenRepo.deleteByUsuario(usuario);
+					
+		String token = UUID.randomUUID().toString();
+		TokenRecuperacionContrasena tokenNuevo = new TokenRecuperacionContrasena();
+		tokenNuevo.setUsuario(usuario);
+		tokenNuevo.setToken(token);
+		tokenNuevo.setExpiracionToken(LocalDateTime.now().plusHours(1));
+			    
+		tokenRepo.save(tokenNuevo);
+			
+		   return token;
+			    
+		}
 	 
 	 /**
 	  * Comprueba que el token existe y no ha expirado.

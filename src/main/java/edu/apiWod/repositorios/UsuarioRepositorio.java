@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository; // Importa la inte
 import edu.apiWod.modelos.UsuarioModelo;
 
 /**
- * Contiene los metodos que haran las query a la base de datos
+ * Contiene los metodos que haran las query a la base de datos con la tabla de usuarios
  * msm - 060325
  */
 public interface UsuarioRepositorio extends JpaRepository<UsuarioModelo , Long> {

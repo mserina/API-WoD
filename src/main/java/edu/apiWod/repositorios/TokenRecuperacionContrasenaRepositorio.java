@@ -9,7 +9,7 @@ import edu.apiWod.modelos.UsuarioModelo;
 import jakarta.transaction.Transactional;
 
 /**
- * Contiene los metodos que haran las query a la base de datos
+ * Contiene los metodos que haran las query a la base de datos con la tabla de token-recuperacion
  * msm - 060325
  */
 public interface TokenRecuperacionContrasenaRepositorio extends JpaRepository<TokenRecuperacionContrasena , Long> {

@@ -1,12 +1,13 @@
 package edu.apiWod.servicios;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.apiWod.modelos.TokenRecuperacionContrasena;
 import edu.apiWod.modelos.UsuarioModelo;
@@ -29,6 +30,7 @@ public class TokenContrasenaRecuperacion {
 	  * @param email
 	  * @return devuelve el nuevo token
 	  */
+	 @Transactional
 	public String creacionTokenRecuperacion(String email) {
 		//Busca al usuario por correo y borra el token anterior (en el caso de que exisitiera token)	 
 		UsuarioModelo usuario = usuarioRepo.findByCorreoElectronico(email);
@@ -55,6 +57,7 @@ public class TokenContrasenaRecuperacion {
 	  * msm - 290425
 	  * @throws IllegalArgumentException si no existe o está expirado.
 	  */
+	 @Transactional
 	    public void validarToken(String token) {
 	      TokenRecuperacionContrasena respuestaValidacion = tokenRepo.findByToken(token);
 	        
@@ -68,36 +71,45 @@ public class TokenContrasenaRecuperacion {
 	      // Token válido -> nada más que hacer
 	  }
 	    
+	    
 	    /**
 	     * Cambia la contraseña del usuario por la nueva
 	     * msm - 300425
 	     * @param token el token que usaremos para buscar al usuario
 	     * @param contrasenaNueva 
 	     */
+	 @Transactional
 	    public void cambiarContrasena(String token, String contrasenaNueva) {
-	        // Primero validamos el token (lanza IllegalArgumentException si falla)
-	        TokenRecuperacionContrasena tokenUsuario = tokenRepo.findByToken(token);
-	        if (tokenUsuario == null) {
-	            throw new IllegalArgumentException("Token inválido");
-	        }
-	        if (tokenUsuario.getExpiracionToken().isBefore(LocalDateTime.now())) {
-	            tokenRepo.delete(tokenUsuario);
-	            throw new IllegalArgumentException("Token expirado");
-	        }
+		// 1) Buscar el token
+		    TokenRecuperacionContrasena tokenUsuario = tokenRepo.findByToken(token);
+		    if (tokenUsuario == null) {
+		        // no existe: nada de usuario aquí
+		        throw new IllegalArgumentException("Token inválido");
+		    }
 
-	        // Obtenemos al usuario
-	        UsuarioModelo usuario = tokenUsuario.getUsuario();
-	        if (usuario == null) {
-	            throw new UsuarioNoEncontradoExcepcion("Usuario asociado al token no encontrado");
-	        }
+		// 2) Si ha expirado, lo borramos y lanzamos la excepción
+		    if (tokenUsuario.getExpiracionToken().isBefore(LocalDateTime.now())) {
+		    	tokenRepo.deleteByUsuario(tokenUsuario.getUsuario());
+		        throw new IllegalArgumentException("Token expirado");
+		    }
+		    
+		 // 3) Ya sabemos que tokenUsuario existe y no ha expirado: obtenemos el usuario
+		    UsuarioModelo usuario = tokenUsuario.getUsuario();
+		    if (usuario == null) {
+		        // por si acaso, eliminamos el token huérfano
+		    	tokenRepo.deleteByUsuario(tokenUsuario.getUsuario());
+		        throw new UsuarioNoEncontradoExcepcion("Usuario asociado al token no encontrado");
+		    }
+		    
+		 // 4) Ciframos y guardamos la nueva contraseña
+		    usuario.setContrasena(cifradoContrasena.encode(contrasenaNueva));
+		    usuarioRepo.save(usuario);
 
-	        // Ciframos y guardamos la nueva contraseña
-	        usuario.setContrasena(cifradoContrasena.encode(contrasenaNueva));
-	        usuarioRepo.save(usuario);
-
-	        // Eliminamos el token para que no pueda reutilizarse
-	        tokenRepo.delete(tokenUsuario);
+		 // 5) Borramos el token para que no pueda reutilizarse
+		    tokenRepo.deleteByUsuario(usuario);
+		    tokenRepo.flush();
 	    }
-	    
+	 
+
 	  
 }

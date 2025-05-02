@@ -3,10 +3,10 @@ package edu.apiWod.repositorios;
 
 import org.springframework.data.jpa.repository.JpaRepository; // Importa la interfaz JpaRepository de Spring Data JPA
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import edu.apiWod.modelos.TokenRecuperacionContrasena;
 import edu.apiWod.modelos.UsuarioModelo;
-import jakarta.transaction.Transactional;
 
 /**
  * Contiene los metodos que haran las query a la base de datos con la tabla de token-recuperacion
@@ -17,6 +17,6 @@ public interface TokenRecuperacionContrasenaRepositorio extends JpaRepository<To
 	TokenRecuperacionContrasena findByToken(String token);
 	
 	@Modifying
-    @Transactional
+	@Query("DELETE FROM TokenRecuperacionContrasena t WHERE t.usuario = :usuario") 
 	void deleteByUsuario(UsuarioModelo usuario);
 }

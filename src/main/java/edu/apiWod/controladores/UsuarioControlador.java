@@ -1,11 +1,13 @@
 package edu.apiWod.controladores;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import dtos.LoginDto;
@@ -39,6 +43,8 @@ public class UsuarioControlador {
     private UsuarioServicio usuarioServicios;
     @Autowired
     private TokenContrasenaRecuperacion tokenServicio;
+    
+    
 
     
     /**
@@ -62,10 +68,18 @@ public class UsuarioControlador {
      * @param usuario Datos del usuario a registrar.
      * @return El usuario recién agregado.
      */
-    @PostMapping("/crear")
-    public UsuarioModelo agregarUsuario(@RequestBody UsuarioModelo usuario) {
-        usuarioServicios.agregarUsuario(usuario);
-        return usuario;
+    @PostMapping(path = "/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<UsuarioModelo> agregarUsuarios(@RequestParam String nombreCompleto, @RequestParam String movil, @RequestParam String correoElectronico, @RequestParam String tipoUsuario, @RequestParam String contrasena, @RequestParam("foto") MultipartFile foto) throws IOException {
+    	UsuarioModelo usuario = new UsuarioModelo();
+    	usuario.setNombreCompleto(nombreCompleto);
+    	usuario.setMovil(movil);
+    	usuario.setCorreoElectronico(correoElectronico);
+    	usuario.setTipoUsuario(tipoUsuario);
+    	usuario.setContrasena(contrasena); // ya cifrada por el frontend
+    	usuario.setFoto(foto.getBytes());   // bytes en la columna
+
+        UsuarioModelo usuarioGuardado = usuarioServicios.agregarUsuario(usuario);
+        return ResponseEntity.ok(usuarioGuardado);
     }
 
     
@@ -131,6 +145,17 @@ public class UsuarioControlador {
     }
     
   
+	/*
+	 * @GetMapping("/{id}/foto") public ResponseEntity<byte[]>
+	 * fotoUsuario(@PathVariable Long id) { UsuarioModelo u = repo.findById(id)
+	 * .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)); byte[]
+	 * foto = u.getFoto(); if (foto == null || foto.length == 0) { return
+	 * ResponseEntity.noContent().build(); } HttpHeaders headers = new
+	 * HttpHeaders(); headers.setContentType(MediaType.IMAGE_JPEG); // o PNG según
+	 * tu base // opcionalmente: headers.setCacheControl(...) return new
+	 * ResponseEntity<>(foto, headers, HttpStatus.OK); }
+	 */
+    
     //--------------METODOS PARA TOKEN RECUPERACION CONTRASEÑA -----------------//
     
     /**

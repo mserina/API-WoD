@@ -1,6 +1,5 @@
 package edu.apiWod.servicios;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import edu.apiWod.modelos.TokenRecuperacionContrasena;
 import edu.apiWod.modelos.UsuarioModelo;
 import edu.apiWod.repositorios.TokenRecuperacionContrasenaRepositorio;
 import edu.apiWod.repositorios.UsuarioRepositorio;
@@ -46,8 +44,9 @@ public class UsuarioServicio {
 	  * msm - 060325
 	  * @param usuario recoge los datos del usuario nuevo
 	  */
-	    public void agregarUsuario(UsuarioModelo usuario) {
+	    public UsuarioModelo agregarUsuario(UsuarioModelo usuario) {
 	        usuarioRepositorio.save(usuario);  // Guarda el usuario utilizando el repositorio
+	        return usuario;
 	    }
 	   
 	   
@@ -154,9 +153,9 @@ public class UsuarioServicio {
 	                case "contrasena":
 	                    u.setContrasena(nuevoValor);
 	                    break;
-	                case "foto":
-	                    u.setFoto(nuevoValor);
-	                    break;
+					/*
+					 * case "foto": u.setFoto(nuevoValor); break;
+					 */
 	                case "verificado":
 	                	if(nuevoValor.equals("true")) {
 	                		u.setVerificado(true);

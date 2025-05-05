@@ -13,5 +13,5 @@ import edu.apiWod.modelos.UsuarioModelo;
 public interface UsuarioRepositorio extends JpaRepository<UsuarioModelo , Long> {
 
 	UsuarioModelo findByCorreoElectronico(String email);
-  
+	Optional<UsuarioModelo> findById(Long id);
 }

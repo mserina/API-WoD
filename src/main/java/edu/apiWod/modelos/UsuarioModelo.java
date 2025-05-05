@@ -1,13 +1,13 @@
 package edu.apiWod.modelos;
 
 import jakarta.persistence.CascadeType;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 /**
@@ -39,8 +39,9 @@ public class UsuarioModelo {
 	    @Column(name = "contrasena", nullable = false, length = 255)
 	    private String contrasena;
 
-	    @Column(name = "foto", nullable = false, length = 255)
-	    private String foto;
+	    @Lob
+	    @Column(name = "foto", columnDefinition = "bytea")
+	    private byte[] foto;
 	    
 	    @Column(name = "tokenRecuperacion", length = 255)
 	    private String tokenRecuperacion;
@@ -103,11 +104,11 @@ public class UsuarioModelo {
 	        this.contrasena = contrasena;
 	    }
 
-	    public String getFoto() {
+	    public byte[] getFoto() {
 	        return foto;
 	    }
 
-	    public void setFoto(String foto) {
+	    public void setFoto(byte[] foto) {
 	        this.foto = foto;
 	    }
 	    

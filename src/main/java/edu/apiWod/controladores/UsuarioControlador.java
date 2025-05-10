@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -69,17 +68,16 @@ public class UsuarioControlador {
      * @return El usuario recién agregado.
      */
     @PostMapping(path = "/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<UsuarioModelo> agregarUsuarios(@RequestParam String nombreCompleto, @RequestParam String movil, @RequestParam String correoElectronico, @RequestParam String tipoUsuario, @RequestParam String contrasena, @RequestParam("foto") MultipartFile foto) throws IOException {
-    	UsuarioModelo usuario = new UsuarioModelo();
-    	usuario.setNombreCompleto(nombreCompleto);
-    	usuario.setMovil(movil);
-    	usuario.setCorreoElectronico(correoElectronico);
-    	usuario.setTipoUsuario(tipoUsuario);
-    	usuario.setContrasena(contrasena); // ya cifrada por el frontend
-    	usuario.setFoto(foto.getBytes());   // bytes en la columna
-
-        UsuarioModelo usuarioGuardado = usuarioServicios.agregarUsuario(usuario);
-        return ResponseEntity.ok(usuarioGuardado);
+    public ResponseEntity<UsuarioModelo> agregarUsuarios(@RequestParam("nombreCompleto") String nombreCompleto, @RequestParam("movil") String movil, @RequestParam("correoElectronico") String correoElectronico, @RequestParam("tipoUsuario") String tipoUsuario, @RequestParam("contrasena") String contrasena, @RequestParam("foto") MultipartFile foto) throws IOException {
+    	 UsuarioModelo usuario = new UsuarioModelo();
+    	    usuario.setNombreCompleto(nombreCompleto);
+    	    usuario.setMovil(movil);
+    	    usuario.setCorreoElectronico(correoElectronico);
+    	    usuario.setTipoUsuario(tipoUsuario);
+    	    usuario.setContrasena(contrasena);
+    	    usuario.setFoto(foto.getBytes());
+    	    UsuarioModelo guardado = usuarioServicios.agregarUsuario(usuario);
+    	    return ResponseEntity.ok(guardado);
     }
 
     

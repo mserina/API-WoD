@@ -36,7 +36,7 @@ public class CorsConfiguracion {
                 
                 // Definimos las reglas de CORS para todas las rutas de la aplicación
                 registry.addMapping("/**") // Permite el acceso a todas las rutas
-                        .allowedOrigins("http://localhost:4200") // Permite peticiones desde Angular (localhost:4200)
+                        .allowedOrigins("http://localhost:8080") // Permite peticiones desde Angular (localhost:4200)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos HTTP permitidos
                         .allowedHeaders("*") // Permite todos los headers en la petición
                         .allowCredentials(true); // Permite el uso de credenciales (cookies, autenticación)

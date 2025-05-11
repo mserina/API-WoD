@@ -23,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import dtos.LoginDto;
 import edu.apiWod.modelos.UsuarioModelo;
+import edu.apiWod.repositorios.UsuarioRepositorio;
 import edu.apiWod.servicios.TokenContrasenaRecuperacion;
 import edu.apiWod.servicios.UsuarioServicio;
 
@@ -42,6 +43,8 @@ public class UsuarioControlador {
     private UsuarioServicio usuarioServicios;
     @Autowired
     private TokenContrasenaRecuperacion tokenServicio;
+    @Autowired
+    private UsuarioRepositorio repoUsu;
     
     
 
@@ -80,6 +83,36 @@ public class UsuarioControlador {
     	    return ResponseEntity.ok(guardado);
     }
 
+  
+    
+    @GetMapping(path = "/foto/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> servirFoto(@PathVariable Long id) {
+        // 1) buscar el usuario
+    	Optional<UsuarioModelo> usuarioOpt = repoUsu.findById(id);
+
+    	 // 2) verificar que exista el usuario
+        if (!usuarioOpt.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UsuarioModelo usuario = usuarioOpt.get();
+        
+        // 3) extraer el byte[]
+        byte[] foto = usuario.getFoto();
+
+        
+        // 4) verificar que exista
+        if (foto == null || foto.length == 0) {
+            // 204 No Content si no hay foto
+            return ResponseEntity.noContent().build();
+        }
+
+        // 5) devolver la foto en un ResponseEntity
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)  // o PNG si guardas otro formato
+                .body(foto);
+    }
     
     /**
      * Obtiene y devuelve la lista de todos los usuarios almacenados en la base de datos.

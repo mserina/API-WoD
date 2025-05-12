@@ -43,18 +43,12 @@ public class UsuarioModelo {
 	    private String contrasena;
 
 	    @JdbcTypeCode(SqlTypes.BINARY)
-	    @Column(name = "foto", columnDefinition = "BYTEA", nullable = true)
+	    @Column(name = "foto", columnDefinition = "BYTEA", nullable = false)
 	    private byte[] foto;
-	    
-	    @Column(name = "tokenRecuperacion", length = 255)
-	    private String tokenRecuperacion;
-	    
+	    	    
 	    @Column(name = "verificado")
 	    private boolean verificado;
-	
-	    @OneToOne(mappedBy = "usuario", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
-	    private TokenRecuperacionContrasena resetToken;
-	   
+		   
 	    
 
 	    
@@ -115,13 +109,6 @@ public class UsuarioModelo {
 	        this.foto = foto;
 	    }
 	    
-	    public String getTokenRecuperacion() {
-	        return tokenRecuperacion;
-	    }
-
-	    public void setTokenRecuperacion(String tokenRecuperacion) {
-	        this.tokenRecuperacion = tokenRecuperacion;
-	    }
 	    
 	    public boolean getVerificado() {
 	        return verificado;

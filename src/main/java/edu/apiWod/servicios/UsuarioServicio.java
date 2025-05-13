@@ -153,9 +153,7 @@ public class UsuarioServicio {
 	                case "contrasena":
 	                    u.setContrasena(nuevoValor);
 	                    break;
-					/*
-					 * case "foto": u.setFoto(nuevoValor); break;
-					 */
+					
 	                case "verificado":
 	                	if(nuevoValor.equals("true")) {
 	                		u.setVerificado(true);

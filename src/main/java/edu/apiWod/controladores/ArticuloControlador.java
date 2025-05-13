@@ -69,7 +69,7 @@ public class ArticuloControlador {
      */
     @GetMapping("/mostrarArticulos")
     public ResponseEntity<List<ArticuloModelo>> obtenerTodosArticulos() {
-        List<ArticuloModelo> articulos = articuloServicio.obtenerTodosUsuarios();
+        List<ArticuloModelo> articulos = articuloServicio.obtenerTodosArticulos();
         return ResponseEntity.ok(articulos);
     }
     

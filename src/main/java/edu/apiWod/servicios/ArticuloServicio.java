@@ -31,7 +31,7 @@ public class ArticuloServicio {
 	   * msm - 060325
 	   * @return una lista con todo los articulo
 	   */
-		 public List<ArticuloModelo> obtenerTodosUsuarios() {
+		 public List<ArticuloModelo> obtenerTodosArticulos() {
 		     return articuloRepositorio.findAll();
 		 }
 		 

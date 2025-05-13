@@ -17,7 +17,7 @@ import excepciones.UsuarioNoEncontradoExcepcion;
 
 
 @Service
-public class TokenContrasenaRecuperacion {
+public class TokenContrasenaRecuperacionServicio {
 
 	 @Autowired private TokenRecuperacionContrasenaRepositorio tokenRepo;
 	 @Autowired private UsuarioRepositorio usuarioRepo;

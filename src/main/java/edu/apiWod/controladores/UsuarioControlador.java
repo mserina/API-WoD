@@ -24,7 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 import dtos.LoginDto;
 import edu.apiWod.modelos.UsuarioModelo;
 import edu.apiWod.repositorios.UsuarioRepositorio;
-import edu.apiWod.servicios.TokenContrasenaRecuperacion;
+import edu.apiWod.servicios.TokenContrasenaRecuperacionServicio;
 import edu.apiWod.servicios.UsuarioServicio;
 
 /**
@@ -42,7 +42,7 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioServicio usuarioServicios;
     @Autowired
-    private TokenContrasenaRecuperacion tokenServicio;
+    private TokenContrasenaRecuperacionServicio tokenServicio;
     @Autowired
     private UsuarioRepositorio repoUsu;
     
@@ -84,7 +84,12 @@ public class UsuarioControlador {
     }
 
   
-    
+    /**
+     * Carga la foto de la base de datos
+     * msm - 130525
+     * @param id el id del usuario
+     * @return la imagen
+     */
     @GetMapping(path = "/foto/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> servirFoto(@PathVariable Long id) {
         // 1) buscar el usuario
@@ -113,6 +118,7 @@ public class UsuarioControlador {
                 .contentType(MediaType.IMAGE_JPEG)  // o PNG si guardas otro formato
                 .body(foto);
     }
+    
     
     /**
      * Obtiene y devuelve la lista de todos los usuarios almacenados en la base de datos.

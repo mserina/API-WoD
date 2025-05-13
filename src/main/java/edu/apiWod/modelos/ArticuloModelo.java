@@ -37,8 +37,12 @@ public class ArticuloModelo {
     @JdbcTypeCode(SqlTypes.BINARY)
     @Column(name = "foto_articulo", columnDefinition = "BYTEA", nullable = false)
     private byte[] fotoArticulo;
+    
+    @Column(name = "tipo_articulo", nullable = false)
+    private String tipoArticulo;
 
-    // Getters y Setters
+
+	// Getters y Setters
     public Long getId() {
         return id;
     }
@@ -87,5 +91,11 @@ public class ArticuloModelo {
         this.fotoArticulo = fotoArticulo;
     }
 
-    
+    public String getTipoArticulo() {
+		return tipoArticulo;
+	}
+
+	public void setTipoArticulo(String tipoArticulo) {
+		this.tipoArticulo = tipoArticulo;
+	}
 }

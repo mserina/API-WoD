@@ -79,7 +79,7 @@ public class UsuarioServicio {
 	   * @param idUsuario 
 	   */
 	    public void borrarUsuario(Long idUsuario) {
-	        usuarioRepositorio.deleteById(idUsuario);  // Elimina el club utilizando su ID
+	        usuarioRepositorio.deleteById(idUsuario);  // Elimina el usuario utilizando su ID
 	       
 	    }
 

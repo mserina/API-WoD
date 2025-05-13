@@ -2,14 +2,18 @@ package edu.apiWod.controladores;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,12 +48,13 @@ public class ArticuloControlador {
      * @return El articulo recién agregado.
      */
     @PostMapping(path = "/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ArticuloModelo> agregarArticulo(@RequestParam("nombre") String nombreArticulo, @RequestParam("descripcion") String descripcion, @RequestParam("precio") Integer precio,@RequestParam("stock") Integer stock, @RequestParam("fotoArticulo") MultipartFile fotoArticulo) throws IOException {
+    public ResponseEntity<ArticuloModelo> agregarArticulo(@RequestParam("nombre") String nombreArticulo, @RequestParam("descripcion") String descripcion, @RequestParam("precio") Integer precio,@RequestParam("stock") Integer stock, @RequestParam("tipoArticulo") String tipoArticulo, @RequestParam("fotoArticulo") MultipartFile fotoArticulo) throws IOException {
     	 ArticuloModelo articuloNuevo = new ArticuloModelo();
     	 articuloNuevo.setNombre(nombreArticulo);
     	 articuloNuevo.setDescripcion(descripcion);
     	 articuloNuevo.setPrecio(precio);
     	 articuloNuevo.setStock(stock);
+    	 articuloNuevo.setTipoArticulo(tipoArticulo);
     	 articuloNuevo.setFotoArticulo(fotoArticulo.getBytes());
     	    ArticuloModelo guardado = articuloServicio.agregarArticulo(articuloNuevo);
     	    return ResponseEntity.ok(guardado);
@@ -103,6 +108,39 @@ public class ArticuloControlador {
                 .ok()
                 .contentType(MediaType.IMAGE_JPEG)  // o PNG si guardas otro formato
                 .body(foto);
+    }
+    
+    /**
+     * Borra un articulo de la base de datos utilizando su ID.
+     *
+     * @param id Identificador único del articulo.
+     * @return ResponseEntity con mensaje de éxito o error si el articulo no existe.
+     */
+    @DeleteMapping("/borrar/{id}")
+    public ResponseEntity<?> borrarArticulo(@PathVariable Long id) {
+        Optional<ArticuloModelo> articulo = articuloServicio.buscarArticuloPorId(id);
+
+        if (articulo.isPresent()) {
+            articuloServicio.borrarArticulo(id); // Llamar al servicio para eliminar el articulo
+            return ResponseEntity.ok(Map.of("mensaje", "Usuario " + articulo.get().getNombre() + " ha sido eliminado"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("mensaje", "Articulo no encontrado"));
+        }
+    }
+    
+    
+    /**
+     * Modifica un campo específico de un articulo identificado por su nombre.
+     *
+     * @param nombre Nombre del articulo a modificar.
+     * @param campo Nombre del campo a actualizar.
+     * @param nuevoValor Nuevo valor a asignar en el campo.
+     * @return El articulo actualizado en un Optional o vacío si no se encontró.
+     */
+    @PutMapping("/modificarArticulo")
+    public Optional<ArticuloModelo> modificarArticulo(@RequestParam String nombre, @RequestParam String campo, @RequestParam String nuevoValor) {
+        return articuloServicio.modificarArticulo(nombre, campo, nuevoValor);
     }
     
 }

@@ -47,7 +47,7 @@ public class ArticuloControlador {
      * @param usuario Datos del articulo a registrar.
      * @return El articulo recién agregado.
      */
-    @PostMapping(path = "/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/crearArticulos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ArticuloModelo> agregarArticulo(@RequestParam("nombre") String nombreArticulo, @RequestParam("descripcion") String descripcion, @RequestParam("precio") Integer precio,@RequestParam("stock") Integer stock, @RequestParam("tipoArticulo") String tipoArticulo, @RequestParam("fotoArticulo") MultipartFile fotoArticulo) throws IOException {
     	 ArticuloModelo articuloNuevo = new ArticuloModelo();
     	 articuloNuevo.setNombre(nombreArticulo);
@@ -73,7 +73,11 @@ public class ArticuloControlador {
         return ResponseEntity.ok(articulos);
     }
     
-    
+    @GetMapping("/mostrarArticuloId")
+    public ResponseEntity <ArticuloModelo> obtenerArticuloId(Long id) {
+        ArticuloModelo articulo = articuloServicio.buscarArticuloPorId(id);
+        return ResponseEntity.ok(articulo);
+    }
     
     /**
      * Carga la foto de la base de datos
@@ -116,13 +120,13 @@ public class ArticuloControlador {
      * @param id Identificador único del articulo.
      * @return ResponseEntity con mensaje de éxito o error si el articulo no existe.
      */
-    @DeleteMapping("/borrar/{id}")
+    @DeleteMapping("/borrarArticulo/{id}")
     public ResponseEntity<?> borrarArticulo(@PathVariable Long id) {
-        Optional<ArticuloModelo> articulo = articuloServicio.buscarArticuloPorId(id);
+        ArticuloModelo articulo = articuloServicio.buscarArticuloPorId(id);
 
-        if (articulo.isPresent()) {
+        if (articulo != null) {
             articuloServicio.borrarArticulo(id); // Llamar al servicio para eliminar el articulo
-            return ResponseEntity.ok(Map.of("mensaje", "Usuario " + articulo.get().getNombre() + " ha sido eliminado"));
+            return ResponseEntity.ok(Map.of("mensaje", "Usuario " + articulo.getNombre() + " ha sido eliminado"));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("mensaje", "Articulo no encontrado"));

@@ -35,16 +35,18 @@ public class ArticuloServicio {
 		     return articuloRepositorio.findAll();
 		 }
 		 
+		 
 		 /**
 		  * Busca un articulo por id
 		  * msm - 130525 
 		  * @param id 
 		  * @return Devuelve el articulo por id
 		  */
-		public Optional<ArticuloModelo> buscarArticuloPorId(Long id) {
-			Optional<ArticuloModelo> articuloEncontrado = articuloRepositorio.findById(id);;
+		public ArticuloModelo buscarArticuloPorId(Long id) {
+			ArticuloModelo articuloEncontrado = articuloRepositorio.getOneById(id);
 			return articuloEncontrado;
 		}
+		
 		
 		/**
 		* Método para borrar un articulo de la base de datos dado su ID

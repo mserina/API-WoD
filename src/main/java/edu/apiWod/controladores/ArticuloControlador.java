@@ -73,8 +73,8 @@ public class ArticuloControlador {
         return ResponseEntity.ok(articulos);
     }
     
-    @GetMapping("/mostrarArticuloId")
-    public ResponseEntity <ArticuloModelo> obtenerArticuloId(Long id) {
+    @GetMapping("/mostrarArticuloId/{id}")
+    public ResponseEntity <ArticuloModelo> obtenerArticuloId(@PathVariable Long id) {
         ArticuloModelo articulo = articuloServicio.buscarArticuloPorId(id);
         return ResponseEntity.ok(articulo);
     }
@@ -126,7 +126,7 @@ public class ArticuloControlador {
 
         if (articulo != null) {
             articuloServicio.borrarArticulo(id); // Llamar al servicio para eliminar el articulo
-            return ResponseEntity.ok(Map.of("mensaje", "Usuario " + articulo.getNombre() + " ha sido eliminado"));
+            return ResponseEntity.ok(Map.of("mensaje", "Articulo " + articulo.getNombre() + " ha sido eliminado"));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("mensaje", "Articulo no encontrado"));

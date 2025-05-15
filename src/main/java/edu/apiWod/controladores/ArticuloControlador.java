@@ -85,7 +85,7 @@ public class ArticuloControlador {
      * @param id el id del articulo
      * @return la imagen
      */
-    @GetMapping(path = "/foto/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(path = "/fotoArticulo/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> servirFoto(@PathVariable Long id) {
         // 1) buscar el articulo
     	Optional<ArticuloModelo> articuloOpt = articuloRepo.findById(id);

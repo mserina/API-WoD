@@ -1,13 +1,14 @@
 package edu.apiWod.servicios;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.apiWod.modelos.ArticuloModelo;
-import edu.apiWod.modelos.UsuarioModelo;
 import edu.apiWod.repositorios.ArticuloRepositorio;
 
 @Service
@@ -66,13 +67,15 @@ public class ArticuloServicio {
 		 * @param nuevoValor
 		 * @return Optional<ArticuloModelo> que contiene el articulo si existe, o vacío si no se encuentra.
 		 */
-		    public Optional<ArticuloModelo> modificarArticulo(String nombre, String campo, String nuevoValor) {
-		    	// Buscar al articulo por su correo electrónico
+		    public Optional<ArticuloModelo> modificarArticulo(String nombre, String campo, String nuevoValor, MultipartFile foto) {
+		    	
+		    	
+		    	// Buscar al articulo por su nombre
 		        Optional<ArticuloModelo > articuloBD = articuloRepositorio.findAll().stream()
 		                .filter(a -> a.getNombre().equals(nombre))
 		                .findFirst();
 
-		        // Si se encuentra el usuario, se actualiza el campo
+		        // Si se encuentra el articulo, se actualiza el campo
 		        if (articuloBD.isPresent()) {
 		        	ArticuloModelo a = articuloBD.get();
 
@@ -109,6 +112,16 @@ public class ArticuloServicio {
 		                    a.setTipoArticulo(nuevoValor);
 		                    break;
 						
+		                case "foto":
+		                    try {
+		                    	if (foto != null && !foto.isEmpty()) {
+			                        a.setFotoArticulo(foto.getBytes());
+			                    }
+		                    }catch(IOException e){
+		                        System.out.println("Error: No se ha podido guardar la imagen");
+		                    }
+		                    break;
+		                    
 		                default:
 		                    return Optional.empty(); // Si el campo no es válido, devolvemos un Optional vacío
 		            

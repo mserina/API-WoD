@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.apiWod.modelos.ArticuloModelo;
-import edu.apiWod.modelos.UsuarioModelo;
 import edu.apiWod.repositorios.ArticuloRepositorio;
 import edu.apiWod.servicios.ArticuloServicio;
 
@@ -142,9 +141,11 @@ public class ArticuloControlador {
      * @param nuevoValor Nuevo valor a asignar en el campo.
      * @return El articulo actualizado en un Optional o vacío si no se encontró.
      */
-    @PutMapping("/modificarArticulo")
-    public Optional<ArticuloModelo> modificarArticulo(@RequestParam String nombre, @RequestParam String campo, @RequestParam String nuevoValor) {
-        return articuloServicio.modificarArticulo(nombre, campo, nuevoValor);
+    @PutMapping(path = "/modificarArticulo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Optional<ArticuloModelo> modificarArticulo(@RequestParam String nombre, @RequestParam String campo, @RequestParam(required = false) String nuevoValor, @RequestParam(required = false, name="foto") MultipartFile foto) {
+    	Optional<ArticuloModelo> resultado = articuloServicio.modificarArticulo(nombre, campo, nuevoValor, foto);
+
+    	    return resultado;
     }
-    
+    	        
 }

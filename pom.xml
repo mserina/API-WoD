@@ -11,7 +11,7 @@
 	<groupId>edu</groupId>
 	<artifactId>apiWod</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>apiWod</name>
 	<description>Api para el proyecto Will Of D</description>
 	<url/>

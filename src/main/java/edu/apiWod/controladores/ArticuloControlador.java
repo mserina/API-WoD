@@ -72,11 +72,21 @@ public class ArticuloControlador {
         return ResponseEntity.ok(articulos);
     }
     
+    
     @GetMapping("/mostrarArticuloId/{id}")
     public ResponseEntity <ArticuloModelo> obtenerArticuloId(@PathVariable Long id) {
         ArticuloModelo articulo = articuloServicio.buscarArticuloPorId(id);
         return ResponseEntity.ok(articulo);
     }
+    
+    
+    @GetMapping("/mostrarArticulosPorTipo")
+    public ResponseEntity<List<ArticuloModelo>> obtenerArticulosPorTipo(@RequestParam String tipo) {
+        List<ArticuloModelo> articulos = articuloServicio.obtenerArticulosPorTipos(tipo);
+        return ResponseEntity.ok(articulos);
+    }
+
+    
     
     /**
      * Carga la foto de la base de datos

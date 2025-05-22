@@ -3,6 +3,7 @@ package edu.apiWod.servicios;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,14 @@ public class ArticuloServicio {
 			ArticuloModelo articuloEncontrado = articuloRepositorio.getOneById(id);
 			return articuloEncontrado;
 		}
+		
+		
+		public List<ArticuloModelo> obtenerArticulosPorTipos(String tipo) {
+			List<ArticuloModelo> articulosRecogidos = articuloRepositorio.findAll().stream()
+	                .filter(a -> tipo.equalsIgnoreCase(a.getTipoArticulo()))
+	                .collect(Collectors.toList());
+		     return articulosRecogidos;
+		 }
 		
 		
 		/**

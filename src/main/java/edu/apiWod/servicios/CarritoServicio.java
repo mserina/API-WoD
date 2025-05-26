@@ -81,7 +81,7 @@ public class CarritoServicio {
     /**
      * Actualizar la cantidad de un producto concreto
      * msm - 250525
-     * @param carritoItemId
+     * @param articuloCarritoId
      * @param nuevaCantidad
      * @return Devuelve la lista de articulo
      */
@@ -108,12 +108,16 @@ public class CarritoServicio {
     }
     
     
-    
-    public void eliminarItem(Long carritoItemId) {
-        if (!carritoRepositorio.existsById(carritoItemId)) {
-            throw new NoSuchElementException("No existe un item de carrito con ID: " + carritoItemId);
+   /**
+    * Elimina un articulo del carrito
+    * msm - 260525
+    * @param articuloCarritoId el id del item del carrito (hace referencia al articulo guardado en el carrito de un usuario)
+    */
+    public void eliminarItem(Long articuloCarritoId) {
+        if (!carritoRepositorio.existsById(articuloCarritoId)) {
+            throw new NoSuchElementException("No existe un item de carrito con ID: " + articuloCarritoId);
         }
-        carritoRepositorio.deleteById(carritoItemId);
+        carritoRepositorio.deleteById(articuloCarritoId);
     }
 }
 

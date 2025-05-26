@@ -1,7 +1,10 @@
 package edu.apiWod.repositorios;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import edu.apiWod.modelos.CarritoModelo;
 
 /**
@@ -11,4 +14,6 @@ import edu.apiWod.modelos.CarritoModelo;
 public interface CarritoRepositorio extends JpaRepository<CarritoModelo, Long> {
     // Buscar todos los items de un usuario
     List<CarritoModelo> findByUsuarioId(Long usuarioId);
+    
+    boolean existsByUsuarioIdAndArticuloId(Long usuarioId, Long articuloId);
 }

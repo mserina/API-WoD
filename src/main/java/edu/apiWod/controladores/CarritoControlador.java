@@ -39,6 +39,8 @@ public class CarritoControlador {
     @PostMapping("/crearArticulos")
     public ResponseEntity<?> agregarAlCarrito(@RequestBody CarritoModelo peticionCarrito) {
         try {
+        	
+         // Llamamos al servicio y le pasamos los parametros
 	    	CarritoModelo carritoArticuloAnadido = carritoServicio
 	            .agregarAlCarrito(peticionCarrito.getUsuarioId(),
 	            		peticionCarrito.getArticuloId(),
@@ -56,12 +58,17 @@ public class CarritoControlador {
             // Usuario o artículo no encontrados
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
             
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
         	
-            // Cualquier otro error inesperado
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(Map.of("error", "Ocurrió un error inesperado"));
-        }
+            // El artículo ya existe
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", e.getMessage()));
+
+	     } catch (Exception e) {
+	        	
+	    	// Cualquier otro error inesperado
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Ocurrió un error inesperado"));
+	        
+	     }
     }
     
     

@@ -35,25 +35,31 @@ public class CarritoServicio {
      */
     public CarritoModelo agregarAlCarrito(Long usuarioId, Long articuloId, Integer cantidad) {
 
-        //  Validar existencia del usuario
+        // Validar existencia del usuario
         Optional<UsuarioModelo> usuarioEncontrado = usuarioRepositorio.findById(usuarioId);
         if (usuarioEncontrado.isEmpty()) {
             throw new NoSuchElementException("Usuario no encontrado con ID: " + usuarioId);
         }
 
-        //  Validar existencia del artículo 
+        // Validar existencia del artículo 
         Optional<ArticuloModelo> articuloEncontrado = articuloRepositorio.findById(articuloId);
         if (articuloEncontrado.isEmpty()) {
             throw new NoSuchElementException("Artículo no encontrado con ID: " + articuloId);
         }
 
-        //  Crear el objeto del carrito
+        // Validar si el artículo ya está en el carrito del usuario
+        boolean existente = carritoRepositorio.existsByUsuarioIdAndArticuloId(usuarioId, articuloId);
+        if (existente) {
+            throw new IllegalStateException("Este artículo ya está en tu carrito.");
+        }
+
+        // Crear el objeto del carrito
         CarritoModelo item = new CarritoModelo();
         item.setUsuarioId(usuarioId);
         item.setArticuloId(articuloId);
         item.setCantidad(cantidad);
 
-        // 5) Guardar en la base de datos
+        // Guardar en la base de datos
         return carritoRepositorio.save(item);
     }
 

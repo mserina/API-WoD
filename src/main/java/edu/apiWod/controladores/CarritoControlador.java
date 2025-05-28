@@ -118,13 +118,13 @@ public class CarritoControlador {
 
     /**
      * Elimina un articulo del carrito
-     * @param articuloCarritoId el id del articulo en un carrito concreto
+     * @param ElementoCarrito el id del articulo en un carrito concreto
      * msm - 250525
      */
-    @PostMapping("/eliminar")
-    public ResponseEntity<?> eliminarItem(@RequestParam Long articuloCarritoId) {
+    @PostMapping("/eliminarElementoCarrito")
+    public ResponseEntity<?> ElementoCarrito(@RequestParam Long elementoCarritoId) {
         try {
-            carritoServicio.eliminarItem(articuloCarritoId);
+            carritoServicio.eliminarItem(elementoCarritoId);
             return ResponseEntity.ok(Map.of("mensaje", "Se eliminó correctamente el artículo del carrito"));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));

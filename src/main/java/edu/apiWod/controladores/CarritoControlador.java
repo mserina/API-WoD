@@ -99,20 +99,20 @@ public class CarritoControlador {
      * @param cantidad Cantidad del articulo
      * @return devuelve el carrito con los cambios
      */
-    @PostMapping("/actualizar")
-    public ResponseEntity<?> actualizarCantidad(@RequestParam Long articuloCarritoId, @RequestParam Long articuloId, @RequestParam Integer cantidad) {
-        try {
-            CarritoModelo carritoActualizado = carritoServicio.actualizarCantidad(articuloCarritoId, articuloId, cantidad);
-            return ResponseEntity.ok(carritoActualizado);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(Map.of("error", "Error al actualizar la cantidad del artículo"));
-        }
-    }
+	    @PostMapping("/actualizar")
+	    public ResponseEntity<?> actualizarCantidad(@RequestParam Long articuloCarritoId, @RequestParam Long articuloId, @RequestParam Integer cantidad) {
+	        try {
+	            CarritoModelo carritoActualizado = carritoServicio.actualizarCantidad(articuloCarritoId, articuloId, cantidad);
+	            return ResponseEntity.ok(carritoActualizado);
+	        } catch (IllegalArgumentException e) {
+	            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+	        } catch (NoSuchElementException e) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+	        } catch (Exception e) {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                                 .body(Map.of("error", "Error al actualizar la cantidad del artículo"));
+	        }
+	    }
 
     
 

@@ -95,10 +95,13 @@ public class CarritoServicio {
     	
     	int stockDisponible = articulo.getStock();
     	
+    	if (stockDisponible == 0) {
+    	    throw new IllegalArgumentException("No hay stocks disponible");
+    	}
+    	
     	if (nuevaCantidad > stockDisponible) {
     	    throw new IllegalArgumentException("Solo hay " + stockDisponible + " unidades disponibles en stock");
     	}
-
 
         CarritoModelo carritoModificado = carritoRepositorio.findById(articuloCarritoId)
                 .orElseThrow(() -> new NoSuchElementException("fila de carrito no encontrado con ID: " + articuloCarritoId));
@@ -113,11 +116,27 @@ public class CarritoServicio {
     * msm - 260525
     * @param articuloCarritoId el id del item del carrito (hace referencia al articulo guardado en el carrito de un usuario)
     */
-    public void eliminarItem(Long articuloCarritoId) {
+    public void eliminarElementoCarrito(Long articuloCarritoId) {
         if (!carritoRepositorio.existsById(articuloCarritoId)) {
             throw new NoSuchElementException("No existe un item de carrito con ID: " + articuloCarritoId);
         }
         carritoRepositorio.deleteById(articuloCarritoId);
+    }
+    
+    
+    /**
+     * Vacia el carrito del usuario
+     * msm - 290525
+     * @param usuarioId
+     * @return El numero de articulos eliminados del carrito
+     */
+    public int eliminarCarritoDeUsuario(Long usuarioId) {
+        List<CarritoModelo> elementoCarrito = carritoRepositorio.findByUsuarioId(usuarioId);
+        if (elementoCarrito.isEmpty()) {
+            throw new NoSuchElementException("No hay artículos en el carrito para el usuario " + usuarioId);
+        }
+        carritoRepositorio.deleteAll(elementoCarrito);
+        return elementoCarrito.size();
     }
 }
 

@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,22 +52,26 @@ public class CarritoControlador {
         catch (IllegalArgumentException e) {
         	
             // Por ejemplo: cantidad inválida
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest()
+            				.body(Map.of("error", e.getMessage()));
             
         } catch (NoSuchElementException e) {
         	
             // Usuario o artículo no encontrados
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            					.body(Map.of("error", e.getMessage()));
             
         } catch (IllegalStateException e) {
         	
             // El artículo ya existe
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+            					.body(Map.of("error", e.getMessage()));
 
 	     } catch (Exception e) {
 	        	
 	    	// Cualquier otro error inesperado
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Ocurrió un error inesperado"));
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	        						.body(Map.of("error", "Ocurrió un error inesperado"));
 	        
 	     }
     }
@@ -104,6 +109,7 @@ public class CarritoControlador {
 	        try {
 	            CarritoModelo carritoActualizado = carritoServicio.actualizarCantidad(articuloCarritoId, articuloId, cantidad);
 	            return ResponseEntity.ok(carritoActualizado);
+	            
 	        } catch (IllegalArgumentException e) {
 	            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
 	        } catch (NoSuchElementException e) {
@@ -118,19 +124,41 @@ public class CarritoControlador {
 
     /**
      * Elimina un articulo del carrito
-     * @param ElementoCarrito el id del articulo en un carrito concreto
+     * @param elementoCarritoId El id del articulo en un carrito concreto
      * msm - 250525
      */
-    @PostMapping("/eliminarElementoCarrito")
-    public ResponseEntity<?> ElementoCarrito(@RequestParam Long elementoCarritoId) {
+    @DeleteMapping("/eliminarElementoCarrito/{elementoCarritoId}")
+    public ResponseEntity<?> eliminarElementoCarrito(@PathVariable Long elementoCarritoId) {
         try {
-            carritoServicio.eliminarItem(elementoCarritoId);
+            carritoServicio.eliminarElementoCarrito(elementoCarritoId);
             return ResponseEntity.ok(Map.of("mensaje", "Se eliminó correctamente el artículo del carrito"));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                  .body(Map.of("error", "Error al eliminar el artículo del carrito"));
+        }
+    }
+    
+    /**
+     * Vacia el carrito
+     * msm - 290525
+     * @param usuarioId Id del usuario
+     * @return El numero de elemetos borrados
+     */
+    @DeleteMapping("/vaciarCarrito/{usuarioId}")
+    public ResponseEntity<?> vaciarCarrito(@PathVariable Long usuarioId) {
+        try {
+            int eliminados = carritoServicio.eliminarCarritoDeUsuario(usuarioId);
+            return ResponseEntity.ok(Map.of(
+                "mensaje", "Se eliminaron " + eliminados + " artículos del carrito"
+            ));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(Map.of("error", "Error al vaciar el carrito"));
         }
     }
     

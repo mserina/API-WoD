@@ -12,6 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.apiWod.modelos.ArticuloModelo;
 import edu.apiWod.repositorios.ArticuloRepositorio;
 
+/**
+ * Contiene la logica de las funciones de los articulos
+ * msm - 310525
+ */
 @Service
 public class ArticuloServicio {
 
@@ -49,7 +53,12 @@ public class ArticuloServicio {
 			return articuloEncontrado;
 		}
 		
-		
+		/**
+		 * Busca y filtra la lista de articulos segun el tipo
+		 * msm - 310525 
+		 * @param tipo  Tipo de articulos (figura, poster, manga)
+		 * @return La lista de articulos recopilados
+		 */
 		public List<ArticuloModelo> obtenerArticulosPorTipos(String tipo) {
 			List<ArticuloModelo> articulosRecogidos = articuloRepositorio.findAll().stream()
 	                .filter(a -> tipo.equalsIgnoreCase(a.getTipoArticulo()))

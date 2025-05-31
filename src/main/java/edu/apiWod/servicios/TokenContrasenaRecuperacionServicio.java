@@ -15,7 +15,10 @@ import edu.apiWod.repositorios.TokenRecuperacionContrasenaRepositorio;
 import edu.apiWod.repositorios.UsuarioRepositorio;
 import excepciones.UsuarioNoEncontradoExcepcion;
 
-
+/**
+ *  Contiene la logica de las funciones del token
+ * msm - 310525
+ */
 @Service
 public class TokenContrasenaRecuperacionServicio {
 
@@ -80,20 +83,20 @@ public class TokenContrasenaRecuperacionServicio {
 	     */
 	 @Transactional
 	    public void cambiarContrasena(String token, String contrasenaNueva) {
-		// 1) Buscar el token
+		// Buscar el token
 		    TokenRecuperacionContrasena tokenUsuario = tokenRepo.findByToken(token);
 		    if (tokenUsuario == null) {
 		        // no existe: nada de usuario aquí
 		        throw new IllegalArgumentException("Token inválido");
 		    }
 
-		// 2) Si ha expirado, lo borramos y lanzamos la excepción
+		// Si ha expirado, lo borramos y lanzamos la excepción
 		    if (tokenUsuario.getExpiracionToken().isBefore(LocalDateTime.now())) {
 		    	tokenRepo.deleteByUsuario(tokenUsuario.getUsuario());
 		        throw new IllegalArgumentException("Token expirado");
 		    }
 		    
-		 // 3) Ya sabemos que tokenUsuario existe y no ha expirado: obtenemos el usuario
+		 // Ya sabemos que tokenUsuario existe y no ha expirado: obtenemos el usuario
 		    UsuarioModelo usuario = tokenUsuario.getUsuario();
 		    if (usuario == null) {
 		        // por si acaso, eliminamos el token huérfano
@@ -101,11 +104,11 @@ public class TokenContrasenaRecuperacionServicio {
 		        throw new UsuarioNoEncontradoExcepcion("Usuario asociado al token no encontrado");
 		    }
 		    
-		 // 4) Ciframos y guardamos la nueva contraseña
+		 // Ciframos y guardamos la nueva contraseña
 		    usuario.setContrasena(cifradoContrasena.encode(contrasenaNueva));
 		    usuarioRepo.save(usuario);
 
-		 // 5) Borramos el token para que no pueda reutilizarse
+		 // Borramos el token para que no pueda reutilizarse
 		    tokenRepo.deleteByUsuario(usuario);
 		    tokenRepo.flush();
 	    }

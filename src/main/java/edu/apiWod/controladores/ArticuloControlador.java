@@ -72,14 +72,24 @@ public class ArticuloControlador {
         return ResponseEntity.ok(articulos);
     }
     
-    
+    /**
+     * Muestra articulos por id
+     * msm - 310525
+     * @param id Id del articulo
+     * @return Devuelve los datos del articulo asociado al id
+     */
     @GetMapping("/mostrarArticuloId/{id}")
     public ResponseEntity <ArticuloModelo> obtenerArticuloId(@PathVariable Long id) {
         ArticuloModelo articulo = articuloServicio.buscarArticuloPorId(id);
         return ResponseEntity.ok(articulo);
     }
     
-    
+  /**
+   * Obtiene una lista de artiuclos filtrados por un tipo concreto
+   * msm - 310525
+   * @param tipo Tipo de articulos (figura, poster, manga)
+   * @return La lista de articulos segun el tipo especificado
+   */
     @GetMapping("/mostrarArticulosPorTipo")
     public ResponseEntity<List<ArticuloModelo>> obtenerArticulosPorTipo(@RequestParam String tipo) {
         List<ArticuloModelo> articulos = articuloServicio.obtenerArticulosPorTipos(tipo);

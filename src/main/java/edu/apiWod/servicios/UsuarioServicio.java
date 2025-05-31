@@ -34,10 +34,6 @@ public class UsuarioServicio {
 	 @Autowired //Inyeccion de dependecias para el repositori de los token de recuperacion
 	 private TokenRecuperacionContrasenaRepositorio tokenRepo;
 	 
-		/*
-		 * @Autowired private PasswordEncoder cifradoContraseña;
-		 */
-	 
  
 	 /**
 	  * Método para agregar un nuevo usuario a la base de datos

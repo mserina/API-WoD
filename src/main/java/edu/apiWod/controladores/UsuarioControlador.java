@@ -26,6 +26,7 @@ import edu.apiWod.modelos.UsuarioModelo;
 import edu.apiWod.repositorios.UsuarioRepositorio;
 import edu.apiWod.servicios.TokenContrasenaRecuperacionServicio;
 import edu.apiWod.servicios.UsuarioServicio;
+import excepciones.UsuarioNoEncontradoExcepcion;
 
 /**
  * Controlador para gestionar las operaciones relacionadas con los usuarios.
@@ -182,16 +183,7 @@ public class UsuarioControlador {
     }
     
   
-	/*
-	 * @GetMapping("/{id}/foto") public ResponseEntity<byte[]>
-	 * fotoUsuario(@PathVariable Long id) { UsuarioModelo u = repo.findById(id)
-	 * .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)); byte[]
-	 * foto = u.getFoto(); if (foto == null || foto.length == 0) { return
-	 * ResponseEntity.noContent().build(); } HttpHeaders headers = new
-	 * HttpHeaders(); headers.setContentType(MediaType.IMAGE_JPEG); // o PNG según
-	 * tu base // opcionalmente: headers.setCacheControl(...) return new
-	 * ResponseEntity<>(foto, headers, HttpStatus.OK); }
-	 */
+	
     
     //--------------METODOS PARA TOKEN RECUPERACION CONTRASEÑA -----------------//
     
@@ -204,8 +196,19 @@ public class UsuarioControlador {
     @PostMapping("/peticionIntrucciones")
     public ResponseEntity<?> peticionReinicioContrasena(@RequestBody Map<String, String> cuerpoPeticion) {
         String email = cuerpoPeticion.get("email");
-        String token = tokenServicio.creacionTokenRecuperacion(email);
-        return ResponseEntity.ok(Map.of("token", token));
+        try {
+            String token = tokenServicio.creacionTokenRecuperacion(email);
+            return ResponseEntity.ok(Map.of("token", token));
+            
+        } catch (UsuarioNoEncontradoExcepcion ex) {
+            // Si no existe el usuario, devolvemos 404 con mensaje de error
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(Map.of("error", ex.getMessage()));
+        } catch (Exception e) {
+            // Para cualquier otro error, devolvemos 500 con mensaje genérico
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(Map.of("error", "Error al generar el token de recuperación"));
+        }
     }
     
     /**

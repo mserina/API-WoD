@@ -5,3 +5,4 @@ edu.apiWod.controladores
 edu.apiWod.modelos
 edu.apiWod.repositorios
 edu.apiWod.servicios
+excepciones

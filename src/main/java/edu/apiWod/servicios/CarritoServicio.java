@@ -14,6 +14,10 @@ import edu.apiWod.repositorios.ArticuloRepositorio;
 import edu.apiWod.repositorios.CarritoRepositorio;
 import edu.apiWod.repositorios.UsuarioRepositorio;
 
+/**
+ * Contiene la logica de las funciones del carrito
+ * msm - 310525
+ */
 @Service
 public class CarritoServicio {
 
